@@ -1,0 +1,49 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ '**' ]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # Install dependencies (CMake, Make, g++)
+    - name: Install dependencies
+      run: sudo apt update && sudo apt install -y cmake g++ make
+
+    - name: Install Google Test
+      run: |
+        sudo apt update
+        sudo apt install -y libgtest-dev
+        cd /usr/src/gtest
+        sudo cmake .
+        sudo make
+        sudo cp lib/*.a /usr/lib
+
+    # Create build directory and configure project
+    - name: Configure CMake
+      run: |
+        mkdir -p build
+        cd build
+        cmake ..
+
+    # Build the project with Make
+    - name: Build the project
+      run: |
+        cd build
+        make
+
+    # Build the tests with Make
+    - name: Build the Tests
+      run: |
+        cd build
+        make tests
+
+    # Run the tests
+    - name: Run Tests
+      run: ctest
