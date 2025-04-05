@@ -1,6 +1,10 @@
-#include <iostream>
+#include "ConnectionManager.hpp"
 
-int main(int ac, char** av) {
-    std::cout << "Client" << std::endl;
+int main() {
+    ConnectionManager connectionManager;
+
+    std::string message = Message::receiveMessage(connectionManager.getClientSocket());
+    std::cout << "Message from server: " << message << std::endl;
+    Message::sendMessage(connectionManager.getClientSocket(), "Hello from client!");
     return 0;
 }
