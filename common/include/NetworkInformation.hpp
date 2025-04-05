@@ -1,5 +1,5 @@
-#ifndef SERVER_INFORMATION_HPP
-#define SERVER_INFORMATION_HPP
+#ifndef NETWORK_INFORMATION_HPP
+#define NETWORK_INFORMATION_HPP
 
 #include <string>
 #include <netinet/in.h>
@@ -30,4 +30,4 @@ protected:
     struct sockaddr_in address;
 };
 
-#endif // SERVER_INFORMATION_HPP
+#endif // NETWORK_INFORMATION_HPP
