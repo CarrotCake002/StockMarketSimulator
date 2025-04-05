@@ -34,7 +34,7 @@ public:
     }
 
 private:
-    int client_sock;
+    int client_sock = -1;
 };
 
 #endif // CONNECTION_MANAGER_HPP

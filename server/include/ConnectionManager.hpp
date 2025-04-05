@@ -51,8 +51,8 @@ public:
     int getClientSocket() const { return client_socket; }
 
 private:
-    int server_fd;
-    int client_socket;
+    int server_fd = -1;
+    int client_socket = -1;
 };
 
 #endif // CONNECTION_MANAGER_HPP
