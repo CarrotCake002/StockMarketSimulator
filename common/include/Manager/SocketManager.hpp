@@ -10,7 +10,7 @@ public:
     static int createSocket() {
         int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
 
-        if (socket_fd <= 0) {
+        if (socket_fd < 0) {
             throw std::runtime_error("Socket failed");
         }
         return socket_fd;
