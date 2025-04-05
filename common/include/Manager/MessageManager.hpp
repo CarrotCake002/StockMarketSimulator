@@ -1,15 +1,15 @@
-#ifndef COMMUNICATION_MANAGER_HPP
-#define COMMUNICATION_MANAGER_HPP
+#ifndef MESSAGE_MANAGER_HPP
+#define MESSAGE_MANAGER_HPP
 
 #include <unistd.h>
 #include <string>
 #include <sys/types.h>
 #include <sys/socket.h>
 
-class CommunicationManager {
+class Message {
 public:
-    CommunicationManager() = default;
-    ~CommunicationManager() = default;
+    Message() = default;
+    ~Message() = default;
 
     static void sendMessage(int socket, const std::string& message) {
         send(socket, message.c_str(), message.length(), 0);
@@ -22,4 +22,4 @@ public:
     }
 };
 
-#endif // COMMUNICATION_MANAGER_HPP
+#endif // MESSAGE_MANAGER_HPP

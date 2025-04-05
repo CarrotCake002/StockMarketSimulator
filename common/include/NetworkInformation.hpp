@@ -13,11 +13,6 @@
 #define IP "127.0.0.1"
 
 class NetworkInformation {
-protected:
-    int port = 8080;
-    std::string ipAddress = IP;
-    struct sockaddr_in address;
-
 public:
     NetworkInformation(void) {
         address.sin_family = AF_INET;
@@ -25,9 +20,14 @@ public:
         address.sin_port = htons(PORT);
     }
 
-    const sockaddr_in& getAddress() const { return address; }
+    const sockaddr_in getAddress() const { return address; }
     std::string getIP() const { return ipAddress; }
     int getPort() const { return port; }
+
+protected:
+    int port = 8080;
+    std::string ipAddress = IP;
+    struct sockaddr_in address;
 };
 
 #endif // SERVER_INFORMATION_HPP

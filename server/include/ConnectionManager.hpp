@@ -1,13 +1,15 @@
 #ifndef CONNECTION_MANAGER_HPP
 #define CONNECTION_MANAGER_HPP
 
+#include "Manager/SocketManager.hpp"
+#include "Manager/MessageManager.hpp"
 #include "NetworkInformation.hpp"
 
 class ConnectionManager : public NetworkInformation {
 public:
     ConnectionManager() {
         try {
-            createSocket();
+            server_fd = SocketManager::createSocket();
             bindSocket();
         } catch (const std::runtime_error& e) {
             std::cerr << "Error: " << e.what() << std::endl;
@@ -19,20 +21,8 @@ public:
     }
 
     ~ConnectionManager() {
-        // Destructor implementation
-        try {
-            close(client_socket);
-            close(server_fd);
-        } catch (...) {
-            std::cerr << "Error closing sockets" << std::endl;
-        }
-    }
-
-    void createSocket() {
-        server_fd = socket(AF_INET, SOCK_STREAM, 0);
-        if (server_fd == 0) {
-            throw std::runtime_error("Socket failed");
-        }
+        SocketManager::closeSocket(client_socket);
+        SocketManager::closeSocket(server_fd);
     }
 
     void bindSocket() {
