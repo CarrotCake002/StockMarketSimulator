@@ -14,15 +14,15 @@
 
 class NetworkInformation {
 protected:
-    int port;
-    std::string ipAddress;
+    int port = 8080;
+    std::string ipAddress = IP;
     struct sockaddr_in address;
 
 public:
-    NetworkInformation(void) : ipAddress(IP), port(PORT) {
+    NetworkInformation(void) {
         address.sin_family = AF_INET;
         address.sin_addr.s_addr = INADDR_ANY;
-        address.sin_port = htons(port);
+        address.sin_port = htons(PORT);
     }
 
     const sockaddr_in& getAddress() const { return address; }

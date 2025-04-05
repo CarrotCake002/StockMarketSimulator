@@ -21,6 +21,8 @@ foreach(dir ${INCLUDE_DIRS})
     endif()
 endforeach()
 
+include_directories(include/ include/* ../common/include/)
+
 # Define the executable
 add_executable(server ${SRC_FILES})
 
