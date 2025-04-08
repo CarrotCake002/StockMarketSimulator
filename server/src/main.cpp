@@ -7,6 +7,18 @@
 
 const std::string SERVER_GREETING = "Hello from server";
 
+bool inputErrorHandling(int ac, char **av) {
+    if (ac != 2) {
+        std::cerr << "Usage: " << av[0] << " <port>" << std::endl;
+        return false;
+    }
+    if (std::stoi(av[1]) <= 0 || std::stoi(av[1]) > 65535) {
+        std::cerr << "Port must be between 1 and 65535." << std::endl;
+        return false;
+    }
+    return true;
+}
+
 void handleConnectedClient(int client_socket) {
     Message::sendMessage(client_socket, SERVER_GREETING);
     std::cout << "Message from client: " << Message::receiveMessage(client_socket) << std::endl;
@@ -15,9 +27,9 @@ void handleConnectedClient(int client_socket) {
 }
 
 // Function to handle client connections
-void handleClientConnections() {
+void handleClientConnections(int port) {
     try {
-        ServerConnectionManager server;
+        ServerConnectionManager server(port);
 
         server.listenForConnections();
 
@@ -42,9 +54,14 @@ void handleClientConnections() {
     }
 }
 
-int main() {
+int main(int ac, char **av) {
+    if (!inputErrorHandling(ac, av))
+        return 84;
+
+    int port = std::stoi(av[1]);
+
     try {
-        handleClientConnections();
+        handleClientConnections(port);
     } catch (...) {
         return 84;
     }

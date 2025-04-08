@@ -4,9 +4,10 @@
 #include "Manager/MessageManager.hpp"
 #include "NetworkInformation.hpp"
 
+
 class ClientConnectionManager : public NetworkInformation {
 public:
-    ClientConnectionManager() {
+    ClientConnectionManager(std::string ip = "127.0.0.1", int port = 8080) : NetworkInformation(port, ip) {
         try {
             client_sock = SocketManager::createSocket();
         } catch (const std::runtime_error &e) {
@@ -14,7 +15,7 @@ public:
             exit(EXIT_FAILURE);
         }
 
-        if (inet_pton(AF_INET, IP, &address.sin_addr) <= 0) {
+        if (inet_pton(AF_INET, ip.c_str(), &address.sin_addr) <= 0) {
             std::cerr << "Invalid address" << std::endl;
             exit(EXIT_FAILURE);
         }
@@ -23,7 +24,7 @@ public:
             std::cerr << "Connection failed" << std::endl;
             exit(EXIT_FAILURE);
         }
-        std::cout << "Connected to server at " << IP << ":" << PORT << std::endl;
+        std::cout << "Connected to server at " << ip << ":" << port << std::endl;
     }
 
     int getClientSocket() const { return client_sock; }
