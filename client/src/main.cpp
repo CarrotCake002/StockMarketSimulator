@@ -2,9 +2,14 @@
 
 int main() {
     ClientConnectionManager client;
+    std::string clientCommand;
+    std::string serverResponse;
 
-    std::string message = Message::receiveMessage(client.getClientSocket());
-    std::cout << "Message from server: " << message << std::endl;
-    Message::sendMessage(client.getClientSocket(), "Hello from client!");
+    while (true) {
+        std::getline(std::cin, clientCommand);
+        Message::sendMessage(client.getServerSocket(), clientCommand);
+        serverResponse = Message::receiveMessage(client.getServerSocket());
+        std::cout << "Response from server: " << serverResponse << std::endl;
+    }
     return 0;
 }

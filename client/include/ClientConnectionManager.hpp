@@ -8,7 +8,7 @@ class ClientConnectionManager : public NetworkInformation {
 public:
     ClientConnectionManager() {
         try {
-            client_sock = SocketManager::createSocket();
+            server_sock = SocketManager::createSocket();
         } catch (const std::runtime_error &e) {
             std::cerr << "Socket creation failed: " << e.what() << std::endl;
             exit(EXIT_FAILURE);
@@ -19,21 +19,21 @@ public:
             exit(EXIT_FAILURE);
         }
 
-        if (connect(client_sock, (struct sockaddr *)&address, sizeof(address)) < 0) {
+        if (connect(server_sock, (struct sockaddr *)&address, sizeof(address)) < 0) {
             std::cerr << "Connection failed" << std::endl;
             exit(EXIT_FAILURE);
         }
         std::cout << "Connected to server at " << IP << ":" << PORT << std::endl;
     }
 
-    int getClientSocket() const { return client_sock; }
+    int getServerSocket() const { return server_sock; }
 
     ~ClientConnectionManager() {
-        SocketManager::closeSocket(client_sock);
+        SocketManager::closeSocket(server_sock);
     }
 
 private:
-    int client_sock = -1;
+    int server_sock = -1;
 };
 
 #endif // CLIENT_CONNECTION_MANAGER_HPP
