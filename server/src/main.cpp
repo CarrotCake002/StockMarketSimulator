@@ -16,16 +16,14 @@ void handleConnectedClient(int client_socket) {
 
 // Function to handle client connections
 void handleClientConnections() {
-    int client_socket;
-
     try {
         ServerConnectionManager server;
 
         server.listenForConnections();
 
-        while (client_socket >= 0) {
+        while (true) {
+            int client_socket = server.acceptConnection();
 
-            client_socket = server.acceptConnection();
             if (client_socket < 0) {
                 std::cerr << "Failed to accept connection." << std::endl;
                 continue;
