@@ -7,7 +7,7 @@
 
 class ServerConnectionManager : public NetworkInformation {
 public:
-    ServerConnectionManager() {
+    ServerConnectionManager(int port) : NetworkInformation(port) {
         try {
             server_fd = SocketManager::createSocket();
             bindSocket();
