@@ -1,13 +1,13 @@
-#ifndef CONNECTION_MANAGER_HPP
-#define CONNECTION_MANAGER_HPP
+#ifndef SERVER_CONNECTION_MANAGER_HPP
+#define SERVER_CONNECTION_MANAGER_HPP
 
 #include "Manager/SocketManager.hpp"
 #include "Manager/MessageManager.hpp"
 #include "NetworkInformation.hpp"
 
-class ConnectionManager : public NetworkInformation {
+class ServerConnectionManager : public NetworkInformation {
 public:
-    ConnectionManager() {
+    ServerConnectionManager() {
         try {
             server_fd = SocketManager::createSocket();
             bindSocket();
@@ -20,7 +20,7 @@ public:
         }
     }
 
-    ~ConnectionManager() {
+    ~ServerConnectionManager() {
         SocketManager::closeSocket(client_socket);
         SocketManager::closeSocket(server_fd);
     }
@@ -55,4 +55,4 @@ private:
     int client_socket = -1;
 };
 
-#endif // CONNECTION_MANAGER_HPP
+#endif // SERVER_CONNECTION_MANAGER_HPP

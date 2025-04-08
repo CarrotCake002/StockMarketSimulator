@@ -1,4 +1,4 @@
-#include "ConnectionManager.hpp"
+#include "ServerConnectionManager.hpp"
 #include "Manager/MessageManager.hpp"
 
 #include <iostream>
@@ -12,7 +12,7 @@ void handleClientConnections() {
     int client_socket;
 
     try {
-        ConnectionManager connectionManager;
+        ServerConnectionManager connectionManager;
 
         connectionManager.listenForConnections();
         client_socket = connectionManager.acceptConnection();

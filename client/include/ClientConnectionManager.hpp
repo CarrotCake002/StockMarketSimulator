@@ -1,13 +1,12 @@
-#ifndef CONNECTION_MANAGER_HPP
-#define CONNECTION_MANAGER_HPP
-
+#ifndef CLIENT_CONNECTION_MANAGER_HPP
+#define CLIENT_CONNECTION_MANAGER_HPP
 #include "Manager/SocketManager.hpp"
 #include "Manager/MessageManager.hpp"
 #include "NetworkInformation.hpp"
 
-class ConnectionManager : public NetworkInformation {
+class ClientConnectionManager : public NetworkInformation {
 public:
-    ConnectionManager(){
+    ClientConnectionManager() {
         try {
             client_sock = SocketManager::createSocket();
         } catch (const std::runtime_error &e) {
@@ -29,7 +28,7 @@ public:
 
     int getClientSocket() const { return client_sock; }
 
-    ~ConnectionManager() {
+    ~ClientConnectionManager() {
         SocketManager::closeSocket(client_sock);
     }
 
@@ -37,4 +36,4 @@ private:
     int client_sock = -1;
 };
 
-#endif // CONNECTION_MANAGER_HPP
+#endif // CLIENT_CONNECTION_MANAGER_HPP

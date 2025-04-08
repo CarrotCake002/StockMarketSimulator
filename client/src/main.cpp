@@ -1,7 +1,7 @@
-#include "ConnectionManager.hpp"
+#include "ClientConnectionManager.hpp"
 
 int main() {
-    ConnectionManager connectionManager;
+    ClientConnectionManager connectionManager;
 
     std::string message = Message::receiveMessage(connectionManager.getClientSocket());
     std::cout << "Message from server: " << message << std::endl;
