@@ -39,7 +39,7 @@ void handleConnectedClient(int client_socket) {
         } catch (const std::system_error &e) {
             std::cerr << ERROR << e.what() << std::endl;
             Message::sendMessage(client_socket, ERROR_PROCESSING_COMMAND);
-            std::cout << "Client with fd " << client_socket << "disconnected." << std::endl;
+            std::cout << "Client with fd " << client_socket << " disconnected." << std::endl;
             break;
         } catch (const std::invalid_argument &e) {
             std::cerr << ERROR << e.what() << std::endl;
