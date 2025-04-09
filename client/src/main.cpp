@@ -30,22 +30,22 @@ void handleInput() {
 
 void handleConnection(std::string ip, int port) {
     ClientConnectionManager client(ip, port);
-    std::string clientCommand;
+    std::string clientInput;
     std::string serverResponse;
 
     while (true) {
         try {
             std::cout << INPUT_PROMPT;
-            std::getline(std::cin, clientCommand);
-            if (clientCommand.empty()) {
+            std::getline(std::cin, clientInput);
+            if (clientInput.empty()) {
                 std::cerr << ERROR << ERROR_INVALID_COMMAND << std::endl;
                 continue;
             }
-            if (checkExitCommand(clientCommand)) {
+            if (checkExitCommand(clientInput)) {
                 std::cout << INFO_EXITING_CLIENT << std::endl;
                 break;
             }
-            Message::sendMessage(client.getServerSocket(), clientCommand);
+            Message::sendMessage(client.getServerSocket(), clientInput);
             serverResponse = Message::receiveMessage(client.getServerSocket());
             std::cout << RESPONSE << serverResponse << std::endl;
         } catch (const std::runtime_error &e) {
