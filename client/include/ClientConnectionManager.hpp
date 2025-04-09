@@ -33,6 +33,10 @@ public:
         SocketManager::closeSocket(server_sock);
     }
 
+    std::string getCommand() {
+        
+    }
+
 private:
     int server_sock = -1;
 };
