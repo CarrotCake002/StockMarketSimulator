@@ -51,6 +51,7 @@
 // Command Errors
 #define ERROR_UNKNOWN_COMMAND "Unknown command"
 #define ERROR_INVALID_COMMAND "Invalid command"
+#define ERROR_EMPTY_COMMAND "Command cannot be empty"
 #define ERROR_PROCESSING_COMMAND "Error processing command"
 
 // Thread errors
