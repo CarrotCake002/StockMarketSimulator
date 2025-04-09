@@ -31,7 +31,7 @@ To build and run the project, follow these steps:
 
 1. Clone the repository:
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/CarrotCake002/StockMarketSimulator
     cd StockMarketSimulator
     ```
 
@@ -54,6 +54,6 @@ To build and run the project, follow these steps:
 
 5. Execute the client and server applications:
     ```bash
-    ./client/clientExecutable
-    ./server/serverExecutable
+    ./client/client <IP> <port>
+    ./server/server <port>
     ```
