@@ -1,6 +1,8 @@
 #ifndef NETWORK_INFORMATION_HPP
 #define NETWORK_INFORMATION_HPP
 
+#include "Constants.hpp"
+
 #include <string>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -8,12 +10,9 @@
 #include <iostream>
 #include <unistd.h>
 
-#define DEFAULT_IP = "127.0.0.1"
-#define DEFAULT_PORT = 8080
-
 class NetworkInformation {
 public:
-    NetworkInformation(int inputPort, std::string ip = "127.0.0.1") : port(inputPort), ipAddress(ip) {
+    NetworkInformation(int inputPort = SERVER_PORT, std::string ip = SERVER_IP) : port(inputPort), ipAddress(ip) {
         address.sin_family = AF_INET;
         address.sin_addr.s_addr = INADDR_ANY;
         address.sin_port = htons(port);

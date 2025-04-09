@@ -12,10 +12,10 @@ public:
             server_fd = SocketManager::createSocket();
             bindSocket();
         } catch (const std::runtime_error& e) {
-            std::cerr << "Error: " << e.what() << std::endl;
+            std::cerr << ERROR << e.what() << std::endl;
             throw;
         } catch (...) {
-            std::cerr << "An unexpected error occurred." << std::endl;
+            std::cerr << ERROR_UNEXPECTED << std::endl;
             throw;
         }
     }
@@ -27,15 +27,15 @@ public:
 
     void bindSocket() {
         if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
-            throw std::runtime_error("Bind failed");
+            throw std::runtime_error(ERROR_BINDING);
         }
     }
 
     void listenForConnections() {
         if (listen(server_fd, 1) < 0) {
-            throw std::runtime_error("Listen failed");
+            throw std::runtime_error(ERROR_LISTENING);
         }
-        std::cout << "Waiting for a connection on port " << port << "...\n";
+        std::cout << INFO_WAITING_FOR_CONNECTION << port << "..." << std::endl;
     }
 
     int acceptConnection() {
@@ -43,7 +43,7 @@ public:
 
         client_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen);
         if (client_socket < 0) {
-            throw std::runtime_error("Accept failed");
+            throw std::runtime_error(ERROR_ACCEPTING);
         }
         return client_socket;
     }
