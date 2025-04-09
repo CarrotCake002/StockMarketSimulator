@@ -21,6 +21,7 @@ public:
     static std::string receiveMessage(int socket) {
         char buffer[1024] = {0};
         int valread = read(socket, buffer, 1024);
+
         if (valread < 0) {
             throw std::runtime_error(ERROR_READING_SOCKET);
         } else if (valread == 0) {
