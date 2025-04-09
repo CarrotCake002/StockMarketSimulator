@@ -54,6 +54,6 @@ To build and run the project, follow these steps:
 
 5. Execute the client and server applications:
     ```bash
-    ./client/client <IP> <port>
     ./server/server <port>
+    ./client/client <IP> <port>
     ```
