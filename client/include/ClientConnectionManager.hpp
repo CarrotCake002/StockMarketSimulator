@@ -34,7 +34,7 @@ public:
     }
 
     std::string getCommand() {
-        
+        return "";
     }
 
 private:

@@ -8,15 +8,11 @@
 
 class ClientDisconnectedException : public std::exception {
 public:
-    explicit ClientDisconnectedException(const std::string& message)
-        : message_(message) {}
+    explicit ClientDisconnectedException(void);
 
     const char* what() const noexcept override {
         return INFO_CLIENT_DISCONNECTED;
     }
-
-private:
-    std::string message_;
 };
 
 #endif // CLIENT_DISCONNECTED_EXCEPTION_HPP
