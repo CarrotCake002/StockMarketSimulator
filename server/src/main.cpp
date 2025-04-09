@@ -27,7 +27,7 @@ void handleConnectedClient(int client_socket) {
             Input::validate(clientCommand);
             if (Input::checkExit(clientCommand)) {
                 Message::sendMessage(client_socket, INFO_CLIENT_DISCONNECTED);
-                std::cout << "Client with fd "<< client_socket << "disconnected." << std::endl;
+                std::cout << "Client with fd " << client_socket << " disconnected." << std::endl;
                 break;
             } else if (Input::checkHelp(clientCommand)) {
                 Message::sendMessage(client_socket, HELP_MESSAGE);
