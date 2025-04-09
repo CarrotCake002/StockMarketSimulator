@@ -24,11 +24,6 @@ public:
         return input == EXIT_COMMAND ? true : false;
     }
 
-    static int parse(const std::string& input) {
-        if (checkExit(input))
-        return 0;
-    }
-
     static void validate(const std::string& input) {
         // Example validation logic
         if (input.empty()) {
