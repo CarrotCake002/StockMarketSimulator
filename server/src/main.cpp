@@ -1,6 +1,6 @@
-#include "ServerConnectionManager.hpp"
+#include "Manager/ServerConnectionManager.hpp"
 #include "Manager/MessageManager.hpp"
-#include "Input.hpp"
+#include "Manager/CommandManager.hpp"
 
 #include <iostream>
 #include <string>
@@ -19,23 +19,15 @@ bool inputErrorHandling(int ac, char **av) {
 }
 
 void handleConnectedClient(int client_socket) {
+    CommandManager commandManager(client_socket);
+
     while (true) {
         try {
-            auto clientCommand = Message::receiveMessage(client_socket);
-    
-            std::cout << "\"" << clientCommand << "\" received from client with fd " << client_socket << std::endl;
-            Input::validate(clientCommand);
-            if (Input::checkExit(clientCommand)) {
-                Message::sendMessage(client_socket, INFO_CLIENT_DISCONNECTED);
-                std::cout << "Client with fd " << client_socket << " disconnected." << std::endl;
-                break;
-            } else if (Input::checkHelp(clientCommand)) {
-                Message::sendMessage(client_socket, HELP_MESSAGE);
-                continue;
-            } else {
-                Message::sendMessage(client_socket, ERROR_UNKNOWN_COMMAND);
-                throw std::invalid_argument(ERROR_UNKNOWN_COMMAND);
-            }
+            std::string clientInput = Message::receiveMessage(client_socket);
+            std::cout << "\"" << clientInput << "\" received from client with fd " << client_socket << std::endl;
+            Command command = commandManager.parseCommand(clientInput);
+            // Add implementation of ComandManager::executeCommand here
+
         } catch (const std::system_error &e) {
             std::cerr << ERROR << e.what() << std::endl;
             Message::sendMessage(client_socket, ERROR_PROCESSING_COMMAND);

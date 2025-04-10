@@ -19,11 +19,11 @@
 #define SERVER_DISCONNECT_MESSAGE "You disconnected from server."
 #define SERVER_ERROR_MESSAGE "Error processing command"
 
-// Server Commands
-#define SERVER_HELP_COMMAND "help"
-#define SERVER_EXIT_COMMAND "exit"
-#define SERVER_HELP_MESSAGE "Available commands: help, exit"
-#define SERVER_EMPTY_COMMAND ""
+// Commands
+#define HELP_COMMAND "help"
+#define EXIT_COMMAND "exit"
+#define HELP_MESSAGE "Available commands: help, exit"
+#define EMPTY_COMMAND ""
 
 // Socket Constants
 #define SOCKET_ERROR -1
