@@ -67,6 +67,7 @@
 #define INFO_WAITING_NEW_CONNECTION "Waiting for a new connection..."
 #define INFO_EXITING_CLIENT "Exiting client."
 #define INFO_CONNECTED_TO_SERVER "Connected to server at "
+#define INFO_SERVER_SHUTDOWN "Server is shutting down. Goodbye!"
 
 // Other Errors
 #define ERROR_UNEXPECTED "An unexpected error occurred"

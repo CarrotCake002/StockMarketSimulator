@@ -28,6 +28,10 @@ void handleConnectedClient(int client_socket) {
             commandController.executeCommand(command);
         } catch (const Exception::ClientDisconnected &e) {
             std::cerr << ERROR << e.what() << std::endl;
+            Message::sendMessage(client_socket, ERROR_PROCESSING_COMMAND); // Fix this
+            throw e;
+        } catch (const Exception::ServerDisconnected &e) {
+            std::cerr << ERROR << e.what() << std::endl;
             Message::sendMessage(client_socket, ERROR_PROCESSING_COMMAND);
             break;
         } catch (const std::invalid_argument &e) {

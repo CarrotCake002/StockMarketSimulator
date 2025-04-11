@@ -3,6 +3,7 @@
 
 #include "Constants.hpp"
 #include "Controller/SocketController.hpp"
+#include "Exception/ServerDisconnected.hpp"
 #include "Message.hpp"
 
 enum class Command {
@@ -49,6 +50,12 @@ public:
         SocketController::closeSocket(client_socket);
     }
 
+    void executeShutdown(void) {
+        Message::sendMessage(client_socket, INFO_SERVER_SHUTDOWN);
+        std::cout << INFO_SERVER_SHUTDOWN << std::endl;
+        SocketController::closeSocket(client_socket);
+    }
+
     void executeCommand(Command cmd) {
         if (cmd == Command::HELP) {
             executeHelp();
@@ -57,7 +64,8 @@ public:
         } else if (cmd == Command::LIST) {
             // Handle list command
         } else if (cmd == Command::SHUTDOWN) {
-            // Handle shutdown command
+            executeShutdown();
+            throw Exception::ServerDisconnected(client_socket);
         } else {
             throw std::invalid_argument("Unknown command");
         }
