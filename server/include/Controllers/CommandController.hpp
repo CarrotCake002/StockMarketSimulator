@@ -18,6 +18,7 @@ public:
     ~CommandController() = default;
 
     Command parseCommand(const std::string& command) {
+        std::cout << "\"" << command << "\" received from client with fd " << client_socket << std::endl;
         if (command == "help") {
             return Command::HELP;
         } else if (command == "exit") {

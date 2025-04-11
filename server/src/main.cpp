@@ -23,15 +23,12 @@ void handleConnectedClient(int client_socket) {
     while (true) {
         try {
             std::string clientInput = Message::receiveMessage(client_socket);
-            std::cout << "\"" << clientInput << "\" received from client with fd " << client_socket << std::endl;
             Command command = commandController.parseCommand(clientInput);
-            commandController.executeCommand(command);
-            // Add implementation of ComandController::executeCommand here
 
-        } catch (const std::system_error &e) {
+            commandController.executeCommand(command);
+        } catch (const ClientDisconnectedException &e) {
             std::cerr << ERROR << e.what() << std::endl;
             Message::sendMessage(client_socket, ERROR_PROCESSING_COMMAND);
-            std::cout << "Client with fd " << client_socket << " disconnected." << std::endl;
             break;
         } catch (const std::invalid_argument &e) {
             std::cerr << ERROR << e.what() << std::endl;
