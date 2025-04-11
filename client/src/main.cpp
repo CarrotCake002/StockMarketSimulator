@@ -1,4 +1,4 @@
-#include "Controllers/ClientConnectionController.hpp"
+#include "Controller/ClientConnectionController.hpp"
 #include "Signals.hpp"
 
 bool inputErrorHandling(int ac, char **av) {

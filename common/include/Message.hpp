@@ -1,14 +1,13 @@
 #ifndef MESSAGE_CONTROLLER_HPP
 #define MESSAGE_CONTROLLER_HPP
 
+#include "Exception/ClientDisconnected.hpp"
+
 #include <unistd.h>
-#include <string>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <system_error>
 
-#include "Constants.hpp"
-#include "Exceptions/ClientDisconnected.hpp"
+using Exception::ClientDisconnected;
 
 class Message {
 public:

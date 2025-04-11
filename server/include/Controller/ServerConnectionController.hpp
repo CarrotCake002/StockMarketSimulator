@@ -1,7 +1,7 @@
 #ifndef SERVER_CONNECTION_CONTROLLER_HPP
 #define SERVER_CONNECTION_CONTROLLER_HPP
 
-#include "Controllers/SocketController.hpp"
+#include "Controller/SocketController.hpp"
 #include "Message.hpp"
 
 class ServerConnectionController : public NetworkInformation {

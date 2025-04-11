@@ -1,7 +1,7 @@
 #ifndef CLIENT_CONNECTION_CONTROLLER_HPP
 #define CLIENT_CONNECTION_CONTROLLER_HPP
 
-#include "Controllers/SocketController.hpp"
+#include "Controller/SocketController.hpp"
 #include "Message.hpp"
 #
 class ClientConnectionController : public NetworkInformation {

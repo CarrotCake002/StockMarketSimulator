@@ -3,7 +3,6 @@
 
 #include <exception>
 #include <string>
-#include <iostream>
 
 #include "Constants.hpp"
 
@@ -11,7 +10,7 @@ namespace Exception {
 
     class ClientDisconnected : public std::exception {
     public:
-        explicit ClientDisconnected(int fd);
+        explicit ClientDisconnected(int fd) : fd(fd) {};
 
         const char* what() const noexcept override {
             std::string message = "Client with fd " + std::to_string(fd) + " disconnected";

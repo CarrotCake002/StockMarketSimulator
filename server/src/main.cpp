@@ -1,5 +1,5 @@
-#include "Controllers/ServerConnectionController.hpp"
-#include "Controllers/CommandController.hpp"
+#include "Controller/ServerConnectionController.hpp"
+#include "Controller/CommandController.hpp"
 
 #include <iostream>
 #include <string>
@@ -65,7 +65,6 @@ void handleClientConnections(int port) {
             std::thread client_thread(handleConnectedClient, client_socket);
             client_thread.detach(); // Detach the thread to handle multiple clients
             std::cout << INFO_CLIENT_CONNECTED_FD << client_socket << std::endl;
-            std::cout << INFO_WAITING_NEW_CONNECTION << std::endl;
         }
     } catch (const std::runtime_error& e) {
         std::cerr << RUNTIME_ERROR << e.what() << std::endl;

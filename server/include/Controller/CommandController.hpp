@@ -2,7 +2,7 @@
 #define COMMAND_CONTROLLER_HPP
 
 #include "Constants.hpp"
-#include "Controllers/SocketController.hpp"
+#include "Controller/SocketController.hpp"
 #include "Message.hpp"
 
 enum class Command {
@@ -40,6 +40,7 @@ public:
         "  list      - List all available stocks\n"
         "  shutdown  - Shutdown the server\n";
         Message::sendMessage(client_socket, helpMessage);
+        std::cout << "Help message sent to client with fd " << client_socket << std::endl;
     }
 
     void executeExit(void) {
