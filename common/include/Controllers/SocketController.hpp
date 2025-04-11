@@ -1,11 +1,11 @@
-#ifndef SOCKET_MANAGER_HPP
-#define SOCKET_MANAGER_HPP
+#ifndef SOCKET_CONTROLLER_HPP
+#define SOCKET_CONTROLLER_HPP
 
 #include "NetworkInformation.hpp"
 
-class SocketManager {
+class SocketController {
 public:
-    virtual ~SocketManager() = default;
+    virtual ~SocketController() = default;
 
     static int createSocket() {
         int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -25,4 +25,4 @@ public:
     }
 };
 
-#endif // SOCKET_MANAGER_HPP
+#endif // SOCKET_CONTROLLER_HPP

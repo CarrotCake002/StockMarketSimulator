@@ -1,6 +1,5 @@
-#include "Manager/ServerConnectionManager.hpp"
-#include "Manager/MessageManager.hpp"
-#include "Manager/CommandManager.hpp"
+#include "Controllers/ServerConnectionController.hpp"
+#include "Controllers/CommandController.hpp"
 
 #include <iostream>
 #include <string>
@@ -19,14 +18,15 @@ bool inputErrorHandling(int ac, char **av) {
 }
 
 void handleConnectedClient(int client_socket) {
-    CommandManager commandManager(client_socket);
+    CommandController commandController(client_socket);
 
     while (true) {
         try {
             std::string clientInput = Message::receiveMessage(client_socket);
             std::cout << "\"" << clientInput << "\" received from client with fd " << client_socket << std::endl;
-            Command command = commandManager.parseCommand(clientInput);
-            // Add implementation of ComandManager::executeCommand here
+            Command command = commandController.parseCommand(clientInput);
+            commandController.executeCommand(command);
+            // Add implementation of ComandController::executeCommand here
 
         } catch (const std::system_error &e) {
             std::cerr << ERROR << e.what() << std::endl;
@@ -48,13 +48,13 @@ void handleConnectedClient(int client_socket) {
         }
     }
     std::cout << "exited" << std::endl;
-    SocketManager::closeSocket(client_socket);
+    SocketController::closeSocket(client_socket);
 }
 
 // Function to handle client connections
 void handleClientConnections(int port) {
     try {
-        ServerConnectionManager server(port);
+        ServerConnectionController server(port);
 
         server.listenForConnections();
 

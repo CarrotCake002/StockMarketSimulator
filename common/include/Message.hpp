@@ -1,5 +1,5 @@
-#ifndef MESSAGE_MANAGER_HPP
-#define MESSAGE_MANAGER_HPP
+#ifndef MESSAGE_CONTROLLER_HPP
+#define MESSAGE_CONTROLLER_HPP
 
 #include <unistd.h>
 #include <string>
@@ -31,4 +31,4 @@ public:
     }
 };
 
-#endif // MESSAGE_MANAGER_HPP
+#endif // MESSAGE_CONTROLLER_HPP

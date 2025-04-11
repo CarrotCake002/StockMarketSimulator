@@ -1,7 +1,9 @@
-#ifndef COMMAND_MANAGER_HPP
-#define COMMAND_MANAGER_HPP
+#ifndef COMMAND_CONTROLLER_HPP
+#define COMMAND_CONTROLLER_HPP
 
 #include "Constants.hpp"
+#include "Controllers/SocketController.hpp"
+#include "Message.hpp"
 
 enum class Command {
     HELP,
@@ -10,12 +12,12 @@ enum class Command {
     SHUTDOWN
 };
 
-class CommandManager {
+class CommandController {
 public:
-    CommandManager(int client_socket) : client_socket(client_socket) {}
-    ~CommandManager() = default;
+    CommandController(int client_socket) : client_socket(client_socket) {}
+    ~CommandController() = default;
 
-    static Command parseCommand(const std::string& command) {
+    Command parseCommand(const std::string& command) {
         if (command == "help") {
             return Command::HELP;
         } else if (command == "exit") {
@@ -30,17 +32,19 @@ public:
     }
 
     void executeHelp(void) {
-        std::cout << "Available commands:" << std::endl;
-        std::cout << "  help      - Show this help message" << std::endl;
-        std::cout << "  exit      - Exit the program" << std::endl;
-        std::cout << "  list      - List all available stocks" << std::endl;
-        std::cout << "  shutdown  - Shutdown the server" << std::endl;
+        const std::string helpMessage =
+        "Available commands:\n"
+        "  help      - Show this help message\n"
+        "  exit      - Exit the program\n"
+        "  list      - List all available stocks\n"
+        "  shutdown  - Shutdown the server\n";
+        Message::sendMessage(client_socket, helpMessage);
     }
 
     void executeExit(void) {
         Message::sendMessage(client_socket, INFO_CLIENT_DISCONNECTED);
         std::cout << "Client with fd " << client_socket << " disconnected." << std::endl;
-        SocketManager::closeSocket(client_socket);
+        SocketController::closeSocket(client_socket);
     }
 
     void executeCommand(Command cmd) {
@@ -61,4 +65,4 @@ private:
     int client_socket;
 };
 
-#endif // COMMAND_MANAGER_HPP
+#endif // COMMAND_CONTROLLER_HPP

@@ -1,4 +1,4 @@
-#include "ClientConnectionManager.hpp"
+#include "Controllers/ClientConnectionController.hpp"
 #include "Signals.hpp"
 
 bool inputErrorHandling(int ac, char **av) {
@@ -21,7 +21,7 @@ bool inputErrorHandling(int ac, char **av) {
 }
 
 bool checkExitCommand(std::string command) {
-    return shouldExit || command == SERVER_EXIT_COMMAND;
+    return shouldExit || command == EXIT_COMMAND;
 }
 
 void handleInput() {
@@ -29,7 +29,7 @@ void handleInput() {
 }
 
 void handleConnection(std::string ip, int port) {
-    ClientConnectionManager client(ip, port);
+    ClientConnectionController client(ip, port);
     std::string clientInput;
     std::string serverResponse;
 

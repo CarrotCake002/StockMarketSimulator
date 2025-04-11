@@ -1,15 +1,14 @@
-#ifndef SERVER_CONNECTION_MANAGER_HPP
-#define SERVER_CONNECTION_MANAGER_HPP
+#ifndef SERVER_CONNECTION_CONTROLLER_HPP
+#define SERVER_CONNECTION_CONTROLLER_HPP
 
-#include "Manager/SocketManager.hpp"
-#include "Manager/MessageManager.hpp"
-#include "NetworkInformation.hpp"
+#include "Controllers/SocketController.hpp"
+#include "Message.hpp"
 
-class ServerConnectionManager : public NetworkInformation {
+class ServerConnectionController : public NetworkInformation {
 public:
-    ServerConnectionManager(int port) : NetworkInformation(port) {
+    ServerConnectionController(int port) : NetworkInformation(port) {
         try {
-            server_fd = SocketManager::createSocket();
+            server_fd = SocketController::createSocket();
             bindSocket();
         } catch (const std::runtime_error& e) {
             std::cerr << ERROR << e.what() << std::endl;
@@ -20,9 +19,9 @@ public:
         }
     }
 
-    ~ServerConnectionManager() {
-        SocketManager::closeSocket(client_socket);
-        SocketManager::closeSocket(server_fd);
+    ~ServerConnectionController() {
+        SocketController::closeSocket(client_socket);
+        SocketController::closeSocket(server_fd);
     }
 
     void bindSocket() {
@@ -55,4 +54,4 @@ private:
     int client_socket = -1;
 };
 
-#endif // SERVER_CONNECTION_MANAGER_HPP
+#endif // SERVER_CONNECTION_CONTROLLER_HPP
