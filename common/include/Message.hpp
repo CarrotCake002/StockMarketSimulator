@@ -8,7 +8,7 @@
 #include <system_error>
 
 #include "Constants.hpp"
-#include "Exceptions/ClientDisconnectedException.hpp"
+#include "Exceptions/ClientDisconnected.hpp"
 
 class Message {
 public:
@@ -26,7 +26,7 @@ public:
         if (valread < 0) {
             throw std::runtime_error(ERROR_READING_SOCKET);
         } else if (valread == 0) {
-            throw ClientDisconnectedException(socket);
+            throw Exception::ClientDisconnected(socket);
         }
         return std::string(buffer, valread);
     }

@@ -26,7 +26,7 @@ void handleConnectedClient(int client_socket) {
             Command command = commandController.parseCommand(clientInput);
 
             commandController.executeCommand(command);
-        } catch (const ClientDisconnectedException &e) {
+        } catch (const Exception::ClientDisconnected &e) {
             std::cerr << ERROR << e.what() << std::endl;
             Message::sendMessage(client_socket, ERROR_PROCESSING_COMMAND);
             break;
