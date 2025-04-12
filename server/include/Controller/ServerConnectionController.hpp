@@ -4,6 +4,8 @@
 #include "Controller/SocketController.hpp"
 #include "Message.hpp"
 
+#include <fcntl.h>
+
 class ServerConnectionController : public NetworkInformation {
 public:
     ServerConnectionController(int port) : NetworkInformation(port) {
@@ -20,13 +22,13 @@ public:
     }
 
     ~ServerConnectionController() {
-        SocketController::closeSocket(client_socket);
         SocketController::closeSocket(server_fd);
     }
 
     void bindSocket() {
         if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
-            throw std::runtime_error(ERROR_BINDING);
+            SocketController::closeSocket(server_fd);
+            throw std::runtime_error(ERROR_SOCKET_BINDING);
         }
     }
 
@@ -39,15 +41,18 @@ public:
 
     int acceptConnection() {
         int addrlen = sizeof(address);
+        int flags = fcntl(server_fd, F_GETFL, 0);
+        fcntl(server_fd, F_SETFL, flags | O_NONBLOCK);
 
         client_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen);
         if (client_socket < 0) {
-            throw std::runtime_error(ERROR_ACCEPTING);
+            return SOCKET_ERROR;
         }
         return client_socket;
     }
 
     int getClientSocket() const { return client_socket; }
+    int getServerSocket() const { return server_fd; }
 
 private:
     int server_fd = -1;

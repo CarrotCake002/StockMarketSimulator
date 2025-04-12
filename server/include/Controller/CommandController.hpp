@@ -5,6 +5,7 @@
 #include "Controller/SocketController.hpp"
 #include "Exception/ServerDisconnected.hpp"
 #include "Message.hpp"
+#include "Atomic.hpp"
 
 enum class Command {
     HELP,
@@ -40,34 +41,46 @@ public:
         "  exit      - Exit the program\n"
         "  list      - List all available stocks\n"
         "  shutdown  - Shutdown the server\n";
-        Message::sendMessage(client_socket, helpMessage);
+        try {
+            Message::sendMessage(client_socket, helpMessage);
+        } catch (const std::runtime_error& e) {
+            throw e;
+        }
         std::cout << "Help message sent to client with fd " << client_socket << std::endl;
     }
 
     void executeExit(void) {
-        Message::sendMessage(client_socket, INFO_CLIENT_DISCONNECTED);
-        std::cout << "Client with fd " << client_socket << " disconnected." << std::endl;
-        SocketController::closeSocket(client_socket);
+        try {
+            Message::sendMessage(client_socket, INFO_CLIENT_DISCONNECTED);
+            std::cout << "Client with fd " << client_socket << " disconnected." << std::endl;
+        } catch (const std::runtime_error& e) {
+            throw e;
+        }
     }
 
     void executeShutdown(void) {
-        Message::sendMessage(client_socket, INFO_SERVER_SHUTDOWN);
-        std::cout << INFO_SERVER_SHUTDOWN << std::endl;
-        SocketController::closeSocket(client_socket);
+        try {
+            Message::sendMessage(client_socket, INFO_SERVER_SHUTDOWN);
+            std::cout << INFO_SERVER_SHUTDOWN << std::endl;
+            serverShutdown = true;
+        } catch (const std::runtime_error& e) {
+            throw e;
+        }
     }
 
     void executeCommand(Command cmd) {
-        if (cmd == Command::HELP) {
-            executeHelp();
-        } else if (cmd == Command::EXIT) {
-            executeExit();
-        } else if (cmd == Command::LIST) {
-            // Handle list command
-        } else if (cmd == Command::SHUTDOWN) {
-            executeShutdown();
-            throw Exception::ServerDisconnected(client_socket);
-        } else {
-            throw std::invalid_argument("Unknown command");
+        try {
+            if (cmd == Command::HELP) {
+                executeHelp();
+            } else if (cmd == Command::EXIT) {
+                executeExit();
+            } else if (cmd == Command::LIST) {
+                // Handle list command
+            } else if (cmd == Command::SHUTDOWN) {
+                executeShutdown();
+            }
+        } catch (const std::runtime_error& e) {
+            throw e;
         }
     }
 

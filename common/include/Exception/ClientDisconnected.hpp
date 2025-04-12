@@ -13,12 +13,12 @@ namespace Exception {
         explicit ClientDisconnected(int fd) : fd(fd) {};
 
         const char* what() const noexcept override {
-            std::string message = "Client with fd " + std::to_string(fd) + " disconnected";
             return message.c_str();
         }
 
     private:
         int fd;
+        std::string message = "Client with fd " + std::to_string(fd) + " disconnected";
     };
 
 }

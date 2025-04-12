@@ -20,7 +20,7 @@ public:
         if (socket >= 0) {
             close(socket);
         } else {
-            std::cerr << ERROR_INVALID_SOCKET << std::endl;
+            throw std::runtime_error(ERROR_SOCKET_CLOSING);
         }
     }
 };

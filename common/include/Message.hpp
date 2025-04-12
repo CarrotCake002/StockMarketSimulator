@@ -15,7 +15,9 @@ public:
     ~Message() = default;
 
     static void sendMessage(int socket, const std::string& message) {
-        send(socket, message.c_str(), message.length(), 0);
+        if (send(socket, message.c_str(), message.length(), 0) < 0) {
+            throw std::runtime_error(ERROR_SENDING);
+        }
     }
 
     static std::string receiveMessage(int socket) {

@@ -22,7 +22,9 @@
 // Commands
 #define HELP_COMMAND "help"
 #define EXIT_COMMAND "exit"
-#define HELP_MESSAGE "Available commands: help, exit"
+#define LIST_COMMAND "list"
+#define SHUTDOWN_COMMAND "shutdown"
+#define HELP_MESSAGE "Available commands: help, exit, list, shutdown"
 #define EMPTY_COMMAND ""
 
 // Socket Constants
@@ -31,7 +33,8 @@
 
 // Connection Errors
 #define ERROR_SOCKET_CREATION "Socket creation failed"
-#define ERROR_BINDING "Binding failed"
+#define ERROR_SOCKET_CLOSING "Socket closing failed"
+#define ERROR_SOCKET_BINDING "Socket binding failed"
 #define ERROR_LISTENING "Listening failed"
 #define ERROR_ACCEPTING "Accepting connection failed"
 #define ERROR_CONNECTING "Connecting to server failed"
