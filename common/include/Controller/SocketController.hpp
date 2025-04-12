@@ -3,11 +3,11 @@
 
 #include "NetworkInformation.hpp"
 
-class Socket_fdController {
+class SocketController {
 public:
-    virtual ~Socket_fdController() = default;
+    virtual ~SocketController() = default;
 
-    static int createSocket_fd() {
+    static int createSocket() {
         int socket_fd_fd = socket(AF_INET, SOCK_STREAM, 0);
 
         if (socket_fd_fd < 0) {
@@ -16,7 +16,7 @@ public:
         return socket_fd_fd;
     }
 
-    static void closeSocket_fd(int socket_fd) {
+    static void closeSocket(int socket_fd) {
         if (socket_fd >= 0) {
             close(socket_fd);
         } else {
