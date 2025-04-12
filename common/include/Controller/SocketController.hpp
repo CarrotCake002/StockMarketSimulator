@@ -1,5 +1,5 @@
-#ifndef SOCKET_fd_CONTROLLER_HPP
-#define SOCKET_fd_CONTROLLER_HPP
+#ifndef SOCKET_CONTROLLER_HPP
+#define SOCKET_CONTROLLER_HPP
 
 #include "NetworkInformation.hpp"
 
@@ -25,4 +25,4 @@ public:
     }
 };
 
-#endif // SOCKET_fd_CONTROLLER_HPP
+#endif // SOCKET_CONTROLLER_HPP
