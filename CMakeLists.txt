@@ -6,6 +6,7 @@ add_subdirectory(common)
 add_subdirectory(server)
 add_subdirectory(client)
 
+
 # Enable testing
 enable_testing()
 

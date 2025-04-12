@@ -19,11 +19,13 @@
 #define SERVER_DISCONNECT_MESSAGE "You disconnected from server."
 #define SERVER_ERROR_MESSAGE "Error processing command"
 
-// Server Commands
-#define SERVER_HELP_COMMAND "help"
-#define SERVER_EXIT_COMMAND "exit"
-#define SERVER_HELP_MESSAGE "Available commands: help, exit"
-#define SERVER_EMPTY_COMMAND ""
+// Commands
+#define HELP_COMMAND "help"
+#define EXIT_COMMAND "exit"
+#define LIST_COMMAND "list"
+#define SHUTDOWN_COMMAND "shutdown"
+#define HELP_MESSAGE "Available commands: help, exit, list, shutdown"
+#define EMPTY_COMMAND ""
 
 // Socket Constants
 #define SOCKET_ERROR -1
@@ -31,7 +33,8 @@
 
 // Connection Errors
 #define ERROR_SOCKET_CREATION "Socket creation failed"
-#define ERROR_BINDING "Binding failed"
+#define ERROR_SOCKET_CLOSING "Socket closing failed"
+#define ERROR_SOCKET_BINDING "Socket binding failed"
 #define ERROR_LISTENING "Listening failed"
 #define ERROR_ACCEPTING "Accepting connection failed"
 #define ERROR_CONNECTING "Connecting to server failed"
@@ -67,6 +70,7 @@
 #define INFO_WAITING_NEW_CONNECTION "Waiting for a new connection..."
 #define INFO_EXITING_CLIENT "Exiting client."
 #define INFO_CONNECTED_TO_SERVER "Connected to server at "
+#define INFO_SERVER_SHUTDOWN "Server is shutting down. Goodbye!"
 
 // Other Errors
 #define ERROR_UNEXPECTED "An unexpected error occurred"

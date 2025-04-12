@@ -1,13 +1,13 @@
-#ifndef MESSAGE_MANAGER_HPP
-#define MESSAGE_MANAGER_HPP
+#ifndef MESSAGE_CONTROLLER_HPP
+#define MESSAGE_CONTROLLER_HPP
+
+#include "Exception/ClientDisconnected.hpp"
 
 #include <unistd.h>
-#include <string>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <system_error>
 
-#include "Constants.hpp"
+using Exception::ClientDisconnected;
 
 class Message {
 public:
@@ -15,7 +15,9 @@ public:
     ~Message() = default;
 
     static void sendMessage(int socket, const std::string& message) {
-        send(socket, message.c_str(), message.length(), 0);
+        if (send(socket, message.c_str(), message.length(), 0) < 0) {
+            throw std::runtime_error(ERROR_SENDING);
+        }
     }
 
     static std::string receiveMessage(int socket) {
@@ -25,10 +27,10 @@ public:
         if (valread < 0) {
             throw std::runtime_error(ERROR_READING_SOCKET);
         } else if (valread == 0) {
-            throw std::system_error(errno, std::system_category(), ERROR_CONNECTION_CLOSED);
+            throw Exception::ClientDisconnected(socket);
         }
         return std::string(buffer, valread);
     }
 };
 
-#endif // MESSAGE_MANAGER_HPP
+#endif // MESSAGE_CONTROLLER_HPP

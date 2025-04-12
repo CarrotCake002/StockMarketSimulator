@@ -1,4 +1,4 @@
-#include "ClientConnectionManager.hpp"
+#include "Controller/ClientConnectionController.hpp"
 #include "Signals.hpp"
 
 bool inputErrorHandling(int ac, char **av) {
@@ -21,7 +21,11 @@ bool inputErrorHandling(int ac, char **av) {
 }
 
 bool checkExitCommand(std::string command) {
-    return shouldExit || command == SERVER_EXIT_COMMAND;
+    return shouldExit || command == EXIT_COMMAND;
+}
+
+bool checkShutdownCommand(std::string command) {
+    return command == SHUTDOWN_COMMAND;
 }
 
 void handleInput() {
@@ -29,7 +33,7 @@ void handleInput() {
 }
 
 void handleConnection(std::string ip, int port) {
-    ClientConnectionManager client(ip, port);
+    ClientConnectionController client(ip, port);
     std::string clientInput;
     std::string serverResponse;
 
@@ -48,6 +52,9 @@ void handleConnection(std::string ip, int port) {
             Message::sendMessage(client.getServerSocket(), clientInput);
             serverResponse = Message::receiveMessage(client.getServerSocket());
             std::cout << RESPONSE << serverResponse << std::endl;
+            if (checkShutdownCommand(clientInput)) {
+                break;
+            }
         } catch (const std::runtime_error &e) {
             std::cerr << ERROR << e.what() << std::endl;
             break;
@@ -56,6 +63,7 @@ void handleConnection(std::string ip, int port) {
             throw;
         }
     }
+    SocketController::closeSocket(client.getServerSocket());
 }
 
 int main(int ac, char **av) {

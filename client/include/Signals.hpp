@@ -1,8 +1,11 @@
+#ifndef SIGNALS_HPP
+#define SIGNALS_HPP
+
 #include <csignal>
 #include <atomic>
 #include <iostream>
 
-#include "Manager/MessageManager.hpp"
+#include "Message.hpp"
 #include "Constants.hpp"
 
 // A global atomic flag to signal shutdown
@@ -14,3 +17,5 @@ void signalHandler(int signum) {
         shouldExit = true;
     }
 }
+
+#endif // SIGNALS_HPP

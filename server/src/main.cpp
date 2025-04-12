@@ -1,11 +1,14 @@
-#include "ServerConnectionManager.hpp"
-#include "Manager/MessageManager.hpp"
-#include "Input.hpp"
+#include "Controller/ServerConnectionController.hpp"
+#include "Controller/CommandController.hpp"
+#include "Atomic.hpp"
 
 #include <iostream>
 #include <string>
 #include <thread>
 
+std::atomic<bool> serverShutdown(false);
+
+// Error handling
 bool inputErrorHandling(int ac, char **av) {
     if (ac != 2) {
         std::cerr << "Usage: " << av[0] << " <port>" << std::endl;
@@ -18,28 +21,19 @@ bool inputErrorHandling(int ac, char **av) {
     return true;
 }
 
+// Function to handle client commands in a separate thread
 void handleConnectedClient(int client_socket) {
-    while (true) {
+    CommandController commandController(client_socket);
+
+    while (!serverShutdown) {
         try {
-            auto clientCommand = Message::receiveMessage(client_socket);
-    
-            std::cout << "\"" << clientCommand << "\" received from client with fd " << client_socket << std::endl;
-            Input::validate(clientCommand);
-            if (Input::checkExit(clientCommand)) {
-                Message::sendMessage(client_socket, INFO_CLIENT_DISCONNECTED);
-                std::cout << "Client with fd " << client_socket << " disconnected." << std::endl;
-                break;
-            } else if (Input::checkHelp(clientCommand)) {
-                Message::sendMessage(client_socket, HELP_MESSAGE);
-                continue;
-            } else {
-                Message::sendMessage(client_socket, ERROR_UNKNOWN_COMMAND);
-                throw std::invalid_argument(ERROR_UNKNOWN_COMMAND);
-            }
-        } catch (const std::system_error &e) {
+            std::string clientInput = Message::receiveMessage(client_socket);
+            Command command = commandController.parseCommand(clientInput);
+
+            commandController.executeCommand(command);
+        } catch (const Exception::ClientDisconnected &e) {
             std::cerr << ERROR << e.what() << std::endl;
             Message::sendMessage(client_socket, ERROR_PROCESSING_COMMAND);
-            std::cout << "Client with fd " << client_socket << " disconnected." << std::endl;
             break;
         } catch (const std::invalid_argument &e) {
             std::cerr << ERROR << e.what() << std::endl;
@@ -55,34 +49,29 @@ void handleConnectedClient(int client_socket) {
             continue;
         }
     }
-    std::cout << "exited" << std::endl;
-    SocketManager::closeSocket(client_socket);
+    SocketController::closeSocket(client_socket);
 }
 
 // Function to handle client connections
 void handleClientConnections(int port) {
     try {
-        ServerConnectionManager server(port);
+        ServerConnectionController server(port);
 
         server.listenForConnections();
 
-        while (true) {
+        while (!serverShutdown) {
             int client_socket = server.acceptConnection();
 
-            if (client_socket < 0) {
-                std::cerr << ERROR_ACCEPTING << std::endl;
+            if (client_socket < 0)
                 continue;
-            }
             std::thread client_thread(handleConnectedClient, client_socket);
-            client_thread.detach(); // Detach the thread to handle multiple clients
+            client_thread.detach();
             std::cout << INFO_CLIENT_CONNECTED_FD << client_socket << std::endl;
-            std::cout << INFO_WAITING_NEW_CONNECTION << std::endl;
         }
+        SocketController::closeSocket(server.getServerSocket());
     } catch (const std::runtime_error& e) {
-        std::cerr << RUNTIME_ERROR << e.what() << std::endl;
         throw;
     } catch (...) {
-        std::cerr << ERROR_UNEXPECTED << std::endl;
         throw;
     }
 }

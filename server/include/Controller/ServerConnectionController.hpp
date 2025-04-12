@@ -1,15 +1,16 @@
-#ifndef SERVER_CONNECTION_MANAGER_HPP
-#define SERVER_CONNECTION_MANAGER_HPP
+#ifndef SERVER_CONNECTION_CONTROLLER_HPP
+#define SERVER_CONNECTION_CONTROLLER_HPP
 
-#include "Manager/SocketManager.hpp"
-#include "Manager/MessageManager.hpp"
-#include "NetworkInformation.hpp"
+#include "Controller/SocketController.hpp"
+#include "Message.hpp"
 
-class ServerConnectionManager : public NetworkInformation {
+#include <fcntl.h>
+
+class ServerConnectionController : public NetworkInformation {
 public:
-    ServerConnectionManager(int port) : NetworkInformation(port) {
+    ServerConnectionController(int port) : NetworkInformation(port) {
         try {
-            server_fd = SocketManager::createSocket();
+            server_fd = SocketController::createSocket();
             bindSocket();
         } catch (const std::runtime_error& e) {
             std::cerr << ERROR << e.what() << std::endl;
@@ -20,14 +21,14 @@ public:
         }
     }
 
-    ~ServerConnectionManager() {
-        SocketManager::closeSocket(client_socket);
-        SocketManager::closeSocket(server_fd);
+    ~ServerConnectionController() {
+        SocketController::closeSocket(server_fd);
     }
 
     void bindSocket() {
         if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
-            throw std::runtime_error(ERROR_BINDING);
+            SocketController::closeSocket(server_fd);
+            throw std::runtime_error(ERROR_SOCKET_BINDING);
         }
     }
 
@@ -40,19 +41,22 @@ public:
 
     int acceptConnection() {
         int addrlen = sizeof(address);
+        int flags = fcntl(server_fd, F_GETFL, 0);
+        fcntl(server_fd, F_SETFL, flags | O_NONBLOCK);
 
         client_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen);
         if (client_socket < 0) {
-            throw std::runtime_error(ERROR_ACCEPTING);
+            return SOCKET_ERROR;
         }
         return client_socket;
     }
 
     int getClientSocket() const { return client_socket; }
+    int getServerSocket() const { return server_fd; }
 
 private:
     int server_fd = -1;
     int client_socket = -1;
 };
 
-#endif // SERVER_CONNECTION_MANAGER_HPP
+#endif // SERVER_CONNECTION_CONTROLLER_HPP
