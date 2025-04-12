@@ -10,15 +10,17 @@ namespace Exception {
 
     class ServerDisconnected : public std::exception {
     public:
-        explicit ServerDisconnected(int fd) : fd(fd) {};
+        explicit ServerDisconnected(int fd) : fd(fd) {
+            errorMessage = "Client with fd " + std::to_string(fd) + " requested a server shutdown";
+        }
 
         const char* what() const noexcept override {
-            std::string message = "Client with fd " + std::to_string(fd) + " requested a server shutdown";
-            return message.c_str();
+            return errorMessage.c_str();
         }
 
     private:
         int fd;
+        std::string errorMessage;
     };
 
 }
