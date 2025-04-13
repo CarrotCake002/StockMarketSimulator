@@ -4,5 +4,6 @@
 #include <atomic>
 
 extern std::atomic<bool> serverShutdown;
+extern std::atomic<bool> clientExit;
 
 #endif // ATOMIC_HPP
