@@ -3,7 +3,7 @@
 
 #include "Atomic.hpp"
 #include "Constants.hpp"
-#include "Message.hpp"
+#include "Controller/ClientMessageController.hpp"
 
 #include <iostream>
 #include <string>
@@ -20,7 +20,7 @@ public:
 
         while (!serverShutdown && !clientExit) {
             try {
-                serverResponse = Message::receiveMessage(serverSocket);
+                serverResponse = ClientMessage::receiveMessage(serverSocket);
                 std::cout << RESPONSE << serverResponse << std::endl;
             } catch (const Exception::ClientDisconnected &e) {
                 clientExit = true;

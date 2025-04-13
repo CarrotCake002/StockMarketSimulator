@@ -15,7 +15,7 @@
 #define PORT_MAX 65535
 
 // Utilities
-#define INPUT_LINE_RESET "\33[2K\r\n> " // this is being applied in the server too, fix that
+#define INPUT_LINE_RESET "\33[2K\r> "
 
 // Server Greeting
 #define SERVER_GREETING "Hello from server"
@@ -27,8 +27,8 @@
 #define EXIT_COMMAND "exit"
 #define LIST_COMMAND "list"
 #define SHUTDOWN_COMMAND "shutdown"
-#define HELP_MESSAGE "Available commands: help, exit, list, shutdown"
 #define EMPTY_COMMAND ""
+#define HELP_MESSAGE "Available commands:\n  help      - Show this help message\n  exit      - Exit the program\n  list      - List all available stocks\n  shutdown  - Shutdown the server\n"
 
 // Socket Constants
 #define SOCKET_ERROR -1

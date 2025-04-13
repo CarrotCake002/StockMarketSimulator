@@ -11,10 +11,9 @@ class Message {
 public:
     Message() = default;
     ~Message() = default;
-
+    
     static void sendMessage(int socket, const std::string& message) {
-        std::string newMessage = message + std::string(INPUT_LINE_RESET); // applies to both server and client (check constants)
-        if (send(socket, newMessage.c_str(), newMessage.length(), 0) < 0) {
+        if (send(socket, message.c_str(), message.length(), 0) < 0) {
             throw std::runtime_error(ERROR_SENDING);
         }
     }

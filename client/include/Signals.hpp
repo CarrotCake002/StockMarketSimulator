@@ -5,7 +5,6 @@
 #include <atomic>
 #include <iostream>
 
-#include "Message.hpp"
 #include "Constants.hpp"
 
 // A global atomic flag to signal shutdown

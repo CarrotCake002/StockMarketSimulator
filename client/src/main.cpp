@@ -46,7 +46,7 @@ void handleConnection(std::string ip, int port) {
     std::string serverResponse;
     ServerResponseController responseController(client.getServerSocket());
 
-    std::cout << INPUT_PROMPT;
+    std::cout << INPUT_PROMPT << std::flush;
     while (true) {
         try {
             std::getline(std::cin, clientInput);
@@ -58,7 +58,7 @@ void handleConnection(std::string ip, int port) {
                 std::cout << INFO_EXITING_CLIENT << std::endl;
                 break;
             }
-            Message::sendMessage(client.getServerSocket(), clientInput);
+            ClientMessage::sendMessage(client.getServerSocket(), clientInput);
             if (checkShutdownCommand(clientInput)) {
                 break;
             }
