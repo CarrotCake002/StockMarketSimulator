@@ -7,8 +7,6 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
-using Exception::ClientDisconnected;
-
 class Message {
 public:
     Message() = default;
