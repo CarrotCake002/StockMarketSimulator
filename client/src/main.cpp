@@ -46,9 +46,9 @@ void handleConnection(std::string ip, int port) {
     std::string serverResponse;
     ServerResponseController responseController(client.getServerSocket());
 
+    std::cout << INPUT_PROMPT;
     while (true) {
         try {
-            std::cout << INPUT_PROMPT;
             std::getline(std::cin, clientInput);
             if (clientInput.empty()) {
                 std::cerr << ERROR << ERROR_INVALID_COMMAND << std::endl;
