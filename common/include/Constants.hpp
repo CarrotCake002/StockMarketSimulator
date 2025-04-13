@@ -14,6 +14,9 @@
 #define PORT_MIN 0
 #define PORT_MAX 65535
 
+// Utilities
+#define INPUT_LINE_RESET "\33[2K\r\n> " // this is being applied in the server too, fix that
+
 // Server Greeting
 #define SERVER_GREETING "Hello from server"
 #define SERVER_DISCONNECT_MESSAGE "You disconnected from server."
