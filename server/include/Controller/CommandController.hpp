@@ -4,7 +4,7 @@
 #include "Constants.hpp"
 #include "Controller/SocketController.hpp"
 #include "Exception/ServerDisconnected.hpp"
-#include "Message.hpp"
+#include "Controller/ServerMessageController.hpp"
 #include "Atomic.hpp"
 
 enum class Command {
@@ -35,14 +35,8 @@ public:
     }
 
     void executeHelp(void) {
-        const std::string helpMessage =
-        "Available commands:\n"
-        "  help      - Show this help message\n"
-        "  exit      - Exit the program\n"
-        "  list      - List all available stocks\n"
-        "  shutdown  - Shutdown the server\n";
         try {
-            Message::sendMessage(client_socket, helpMessage);
+            ServerMessage::sendMessage(client_socket, HELP_MESSAGE);
         } catch (const std::runtime_error& e) {
             throw e;
         }
@@ -51,7 +45,7 @@ public:
 
     void executeExit(void) {
         try {
-            Message::sendMessage(client_socket, INFO_CLIENT_DISCONNECTED);
+            ServerMessage::sendMessage(client_socket, INFO_CLIENT_DISCONNECTED);
             std::cout << "Client with fd " << client_socket << " disconnected." << std::endl;
         } catch (const std::runtime_error& e) {
             throw e;
@@ -60,7 +54,7 @@ public:
 
     void executeShutdown(void) {
         try {
-            Message::sendMessage(client_socket, INFO_SERVER_SHUTDOWN);
+            ServerMessage::sendMessage(client_socket, INFO_SERVER_SHUTDOWN);
             std::cout << INFO_SERVER_SHUTDOWN << std::endl;
             serverShutdown = true;
         } catch (const std::runtime_error& e) {

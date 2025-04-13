@@ -3,7 +3,7 @@
 
 #include "Atomic.hpp"
 #include "Constants.hpp"
-#include "Message.hpp"
+#include "Controller/ClientMessageController.hpp"
 
 #include <iostream>
 #include <string>
@@ -15,13 +15,19 @@ public:
         createServerResponseThread();
     };
 
+    static void displayServerResponse(const std::string& message) {
+        std::cout   << "\33[2K\r"        // Clear line and return carriage
+                    << message << "\n"   // Print server message on clean line
+                    << "> " << std::flush; // Reprint the input prompt
+    }
+
     static void handleServerResponse(int serverSocket) {
         std::string serverResponse;
 
         while (!serverShutdown && !clientExit) {
             try {
-                serverResponse = Message::receiveMessage(serverSocket);
-                std::cout << RESPONSE << serverResponse << std::endl;
+                serverResponse = ClientMessage::receiveMessage(serverSocket);
+                displayServerResponse(serverResponse);
             } catch (const Exception::ClientDisconnected &e) {
                 clientExit = true;
                 std::cerr << ERROR << e.what() << std::endl;

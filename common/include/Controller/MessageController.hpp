@@ -7,13 +7,11 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
-using Exception::ClientDisconnected;
-
 class Message {
 public:
     Message() = default;
     ~Message() = default;
-
+    
     static void sendMessage(int socket, const std::string& message) {
         if (send(socket, message.c_str(), message.length(), 0) < 0) {
             throw std::runtime_error(ERROR_SENDING);

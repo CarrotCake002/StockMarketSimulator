@@ -2,7 +2,7 @@
 #define SERVER_CONNECTION_CONTROLLER_HPP
 
 #include "Controller/SocketController.hpp"
-#include "Message.hpp"
+#include "Controller/MessageController.hpp"
 
 #include <fcntl.h>
 

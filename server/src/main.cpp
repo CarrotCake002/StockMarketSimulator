@@ -27,25 +27,25 @@ void handleConnectedClient(int client_socket) {
 
     while (!serverShutdown) {
         try {
-            std::string clientInput = Message::receiveMessage(client_socket);
+            std::string clientInput = ServerMessage::receiveMessage(client_socket);
             Command command = commandController.parseCommand(clientInput);
 
             commandController.executeCommand(command);
         } catch (const Exception::ClientDisconnected &e) {
             std::cerr << ERROR << e.what() << std::endl;
-            Message::sendMessage(client_socket, ERROR_PROCESSING_COMMAND);
+            ServerMessage::sendMessage(client_socket, ERROR_PROCESSING_COMMAND);
             break;
         } catch (const std::invalid_argument &e) {
             std::cerr << ERROR << e.what() << std::endl;
-            Message::sendMessage(client_socket, ERROR_INVALID_COMMAND);
+            ServerMessage::sendMessage(client_socket, ERROR_INVALID_COMMAND);
             continue;
         } catch (const std::runtime_error &e) {
             std::cerr << ERROR << e.what() << std::endl;
-            Message::sendMessage(client_socket, ERROR_PROCESSING_COMMAND);
+            ServerMessage::sendMessage(client_socket, ERROR_PROCESSING_COMMAND);
             continue;
         } catch (std::exception &e) {
             std::cerr << ERROR << e.what() << std::endl;
-            Message::sendMessage(client_socket, ERROR_PROCESSING_COMMAND);
+            ServerMessage::sendMessage(client_socket, ERROR_PROCESSING_COMMAND);
             continue;
         }
     }
