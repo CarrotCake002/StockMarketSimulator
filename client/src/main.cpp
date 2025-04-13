@@ -1,5 +1,12 @@
 #include "Controller/ClientConnectionController.hpp"
 #include "Signals.hpp"
+#include "Atomic.hpp"
+#include "Controller/ServerResponseController.hpp"
+
+#include <thread>
+
+std::atomic<bool> serverShutdown(false);
+std::atomic<bool> clientExit(false);
 
 bool inputErrorHandling(int ac, char **av) {
     if (ac > 3) {
@@ -25,17 +32,19 @@ bool checkExitCommand(std::string command) {
 }
 
 bool checkShutdownCommand(std::string command) {
-    return command == SHUTDOWN_COMMAND;
-}
-
-void handleInput() {
-    
+    if (command == SHUTDOWN_COMMAND) {
+        serverShutdown = true;
+        std::cout << INFO_SERVER_SHUTDOWN << std::endl;
+        return true;
+    }
+    return false;
 }
 
 void handleConnection(std::string ip, int port) {
     ClientConnectionController client(ip, port);
     std::string clientInput;
     std::string serverResponse;
+    ServerResponseController responseController(client.getServerSocket());
 
     while (true) {
         try {
@@ -50,8 +59,6 @@ void handleConnection(std::string ip, int port) {
                 break;
             }
             Message::sendMessage(client.getServerSocket(), clientInput);
-            serverResponse = Message::receiveMessage(client.getServerSocket());
-            std::cout << RESPONSE << serverResponse << std::endl;
             if (checkShutdownCommand(clientInput)) {
                 break;
             }
