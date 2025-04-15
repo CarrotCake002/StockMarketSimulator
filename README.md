@@ -59,13 +59,13 @@ The project is structured into three main components:
 1. Start the server:
 
    ```bash
-   ./server/StockMarketServer
+   ./server/server <port>
    ```
 
 2. In a new terminal, start the client:
 
    ```bash
-   ./client/StockMarketClient
+   ./client/client <ip> <port>
    ```
 
 The client will connect to the server, allowing you to interact with the simulated stock market.
@@ -110,4 +110,3 @@ StockMarketSimulator/
 ## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
