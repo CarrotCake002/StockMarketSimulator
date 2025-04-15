@@ -1,59 +1,113 @@
-## Continuous Integration and Deployment (CI/CD)
+# StockMarketSimulator
 
-This project includes a CI/CD pipeline implemented using GitHub Actions. The pipeline automates the build, test, and deployment processes to ensure code quality and streamline development. Key features of the CI/CD setup include:
+A multithreaded TCP-based stock market simulator designed to explore network programming and concurrency.  
+This project allows users to buy and sell stocks that evolve randomly over time, aiming to maximize profits.  
+**Note**: The stock price evolution is randomized and not based on real-world data.
 
-- **Automated Builds**: Every push or pull request triggers a build process to verify the integrity of the codebase.
-- **Unit Testing**: Tests from the `client/tests`, `server/tests`, and `common/tests` folders are executed to ensure functionality remains intact.
-- **Cross-Platform Support**: The pipeline is configured to run on multiple operating systems (e.g., Linux, macOS, Windows) to ensure compatibility.
-- **Deployment**: Artifacts from successful builds are stored for deployment or further testing.
+## 🧠 Project Goals
 
-The CI/CD configuration is defined in the `.github/workflows` directory, making it easy to modify or extend as needed.
+- Rediscover and practice TCP socket programming.
+- Implement multithreaded client-server architecture.
+- Simulate a dynamic stock market environment.
+- Facilitate buying and selling of stocks with evolving prices.
 
-## Project Structure
+## 🏗️ Architecture Overview
 
-The project is organized as follows:
+The project is structured into three main components:
 
-- **client/**: Contains the source code (`src/`) and tests (`tests/`) for the client-side application.
-- **server/**: Contains the source code (`src/`) and tests (`tests/`) for the server-side application.
-- **common/**: Includes a shared library with common functionality used by both the client and server. This folder also contains its own `src/` and `tests/` directories.
+- **Client**: Handles user interactions and communicates with the server.
+- **Server**: Manages stock data, client connections, and processes transactions.
+- **Common**: Contains shared resources, such as data models and utility functions.
 
-## Build System
+## 🚀 Getting Started
 
-This is a C++ project that uses CMake as its build system. CMake simplifies the process of building and managing dependencies across the client, server, and common components. Each subdirectory is configured with its own CMakeLists.txt file, which is integrated into the top-level CMake configuration.
+### Prerequisites
 
-## Testing
+- C++ compiler supporting C++17 or later.
+- CMake 3.10 or higher.
 
-Unit tests are implemented for all components of the project. The testing framework is integrated into the CI/CD pipeline to ensure that all tests are executed automatically during the build process. Tests are located in the `tests/` directories within the `client/`, `server/`, and `common/` folders.
-
-## Getting Started
-
-To build and run the project, follow these steps:
+### Building the Project
 
 1. Clone the repository:
-    ```bash
-    git clone https://github.com/CarrotCake002/StockMarketSimulator
-    cd StockMarketSimulator
-    ```
 
-2. Create a build directory and configure the project:
-    ```bash
-    mkdir build
-    cd build
-    cmake ..
-    ```
+   ```bash
+   git clone https://github.com/CarrotCake002/StockMarketSimulator.git
+   cd StockMarketSimulator
+   ```
 
-3. Build the project:
-    ```bash
-    cmake --build .
-    ```
+2. Create a build directory and navigate into it:
 
-4. Run the tests:
-    ```bash
-    ctest
-    ```
+   ```bash
+   mkdir build
+   cd build
+   ```
 
-5. Execute the client and server applications:
-    ```bash
-    ./server/server <port>
-    ./client/client <IP> <port>
-    ```
+3. Generate build files with CMake:
+
+   ```bash
+   cmake ..
+   ```
+
+4. Build the project:
+
+   ```bash
+   cmake --build .
+   ```
+
+### Running the Application
+
+1. Start the server:
+
+   ```bash
+   ./server/StockMarketServer
+   ```
+
+2. In a new terminal, start the client:
+
+   ```bash
+   ./client/StockMarketClient
+   ```
+
+The client will connect to the server, allowing you to interact with the simulated stock market.
+
+## ⚙️ Features
+
+- Real-time stock price updates with randomized fluctuations.
+- Ability to buy and sell stocks through the client interface.
+- Multithreaded server handling multiple client connections concurrently.
+- Clean separation of concerns with modular codebase.
+
+## 🧪 Testing
+
+The project includes unit tests for various components. To run the tests:
+
+1. Navigate to the build directory:
+
+   ```bash
+   cd build
+   ```
+
+2. Run the tests using CTest:
+
+   ```bash
+   ctest
+   ```
+
+Ensure that all tests pass to verify the integrity of the application.
+
+## 📁 Project Structure
+
+```
+StockMarketSimulator/
+├── client/            # Client-side application code
+├── server/            # Server-side application code
+├── common/            # Shared resources and utilities
+├── .github/workflows/ # CI/CD configurations
+├── CMakeLists.txt     # Build configuration
+└── README.md          # Project documentation
+```
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
