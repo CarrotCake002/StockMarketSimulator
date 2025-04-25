@@ -35,7 +35,7 @@ public:
     }
 
     void updatePrice() override {
-        price += (rand() % 200) - 100 / 10.0; // Random price change between -10.0 and +10.0
+        price += ((rand() % 200) - 100) / 10.0; // Random price change between -10.0 and +10.0
     }
 
 private:
