@@ -1,7 +1,7 @@
 #ifndef STOCK_MANAGER_HPP
 #define STOCK_MANAGER_HPP
 
-#include "IStock.hpp"
+#include "Interface/IStock.hpp"
 
 #include "BeerStock.hpp"
 
@@ -9,7 +9,7 @@
 
 class StockManager {
 public:
-    StockManager() = default;
+    StockManager();
     ~StockManager();
 
     // Update stock price

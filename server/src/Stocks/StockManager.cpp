@@ -1,4 +1,4 @@
-#include "StockManager.hpp"
+#include "Stocks/StockManager.hpp"
 
 StockManager::StockManager() {
     IStock* beerStock = new BeerStock();

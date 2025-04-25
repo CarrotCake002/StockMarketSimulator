@@ -1,7 +1,7 @@
 #ifndef BEERSTOCK_HPP
 #define BEERSTOCK_HPP
 
-#include "IStock.hpp"
+#include "Interface/IStock.hpp"
 
 #include <stdexcept>
 
