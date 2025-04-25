@@ -1,6 +1,3 @@
-#ifndef STOCKMANAGER_HPP
-#define STOCKMANAGER_HPP
-
 #include "StockManager.hpp"
 
 StockManager::StockManager() {
@@ -30,5 +27,4 @@ void StockManager::buyStock(const StockType symbol, int amount) {
     }
     throw std::invalid_argument("Stock not found.");
 }
-
-#endif // STOCKMANAGER_HPP
+// This function is not implemented in the original code, but it could be added here if needed.
