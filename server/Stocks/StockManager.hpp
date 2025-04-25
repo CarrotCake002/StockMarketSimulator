@@ -10,7 +10,7 @@
 class StockManager {
 public:
     StockManager() = default;
-    ~StockManager() = default;
+    ~StockManager();
 
     // Update stock price
     void updatePrice(void);
