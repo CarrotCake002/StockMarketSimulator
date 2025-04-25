@@ -1,7 +1,7 @@
 #ifndef BEERSTOCK_HPP
 #define BEERSTOCK_HPP
 
-#include "IStock.hpp"
+#include "Interface/IStock.hpp"
 
 #include <stdexcept>
 
@@ -14,7 +14,8 @@ public:
 
     double getPrice() const override { return price; }
     int getVolume() const override { return volume; }
-    std::string getSymbol() const override { return symbol; }
+    std::string getSymbolName() const override { return symbolName; }
+    StockType getType() const override { return symbol; }
     std::string getCompanyName() const override { return companyName; }
 
     void setPrice(double newPrice) override {
@@ -25,7 +26,7 @@ public:
         volume = newVolume;
     }
 
-    void buyStock(int amount) {
+    void buyStock(int amount) override {
         if (amount > volume) {
             throw std::invalid_argument("Not enough stock volume to buy.");
         }
@@ -41,7 +42,8 @@ public:
 private:
     double price = 100.0;
     int volume = 0;
-    std::string symbol = "BEER";
+    StockType symbol = StockType::BEER;
+    std::string symbolName = "BEER";
     std::string companyName = "Generic Beer Company";
 };
 
