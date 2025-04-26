@@ -40,9 +40,8 @@ public:
 
     void sellStock(int amount) override {
         std::lock_guard<std::mutex> lock(stockMutex);
-        int originalVolume = volume; // Store the original volume
         volume += amount;
-        price -= price * (static_cast<double>(amount) / originalVolume); // Decrease price by the percentage of stock sold
+        price -= price * (static_cast<double>(amount) / (volume - amount)); // Decrease price by the percentage of stock sold
     }
 
     void updatePrice() override {
