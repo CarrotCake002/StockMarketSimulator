@@ -22,10 +22,14 @@ StockType StockManager::parseStockType(const std::string &type) const {
     }
 }
 
-void StockManager::updatePrice(void) {
+void StockManager::updatePrice(int client_socket) {
+    std::ostringstream info;
+
     for (auto& stock : stocks) {
         stock->updatePrice();
+        info << stock->displayStockInfo() << "\n";
     }
+    Message::sendMessage(client_socket, info.str());
 }
 
 void StockManager::displayStockInfo(int client_socket) const {

@@ -5,6 +5,8 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <cstdlib>
+#include <ctime>
 
 class BeerStock : public IStock {
 public:
@@ -46,7 +48,9 @@ public:
 
     void updatePrice() override {
         std::lock_guard<std::mutex> lock(stockMutex);
-        price += ((rand() % 200) - 100) / 10.0; // Random price change between -10.0 and +10.0
+
+        srand(static_cast<unsigned int>(time(nullptr)));
+        price += ((rand() % 250) - 100) / 10.0; // Random price change between -10.0 and +15.0
     }
 
     std::string displayStockInfo() const override {

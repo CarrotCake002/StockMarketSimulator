@@ -22,7 +22,7 @@ enum class Command {
 
 class CommandController {
 public:
-    CommandController(int client_socket) : client_socket(client_socket) {}
+    CommandController(int client_socket, StockManager *StockManager) : client_socket(client_socket), stockManager(StockManager) {}
     ~CommandController() = default;
 
     std::vector<std::string> splitCommand(const std::string& command) {
@@ -85,7 +85,7 @@ public:
 
     void executeList(void) {
         try {
-            stockManager.displayStockInfo(client_socket);
+            stockManager->displayStockInfo(client_socket);
         } catch (const std::runtime_error& e) {
             throw e;
         }
@@ -99,8 +99,8 @@ public:
             if (arguments.size() < 3) {
                 throw std::invalid_argument(ERROR_INVALID_ARGUMENT);
             }
-            stockType = stockManager.parseStockType(arguments[1]);
-            stockManager.buyStock(stockType, std::stoi(arguments[2]));
+            stockType = stockManager->parseStockType(arguments[1]);
+            stockManager->buyStock(stockType, std::stoi(arguments[2]));
         } catch (const std::invalid_argument& e) {
             throw e;
         }
@@ -115,8 +115,8 @@ public:
             if (arguments.size() < 3) {
                 throw std::invalid_argument(ERROR_INVALID_ARGUMENT);
             }
-            stockType = stockManager.parseStockType(arguments[1]);
-            stockManager.sellStock(stockType, std::stoi(arguments[2]));
+            stockType = stockManager->parseStockType(arguments[1]);
+            stockManager->sellStock(stockType, std::stoi(arguments[2]));
         } catch (const std::invalid_argument& e) {
             throw e;
         }
@@ -147,7 +147,7 @@ public:
 
 private:
     int client_socket;
-    StockManager stockManager;
+    StockManager *stockManager;
 };
 
 #endif // COMMAND_CONTROLLER_HPP

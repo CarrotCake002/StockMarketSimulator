@@ -18,7 +18,7 @@ public:
     StockType parseStockType(const std::string &type) const;
 
     // Update stock price
-    void updatePrice(void);
+    void updatePrice(int client_socket);
     void displayStockInfo(int client_socket) const;
     void buyStock(const StockType symbol, int amount);
     void sellStock(const StockType symbol, int amount);
