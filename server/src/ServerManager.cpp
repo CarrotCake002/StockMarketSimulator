@@ -1,7 +1,7 @@
 #include "ServerManager.hpp"
 
 ServerManager::ServerManager(int port)
-    : port(port), server(port), stockManager(new StockManager()), serverShutdown(false)
+    : port(port), server(port), stockManager(new StockManager())
 {}
 
 ServerManager::~ServerManager() {
@@ -73,7 +73,6 @@ void ServerManager::handleConnectedClient(int client_socket) {
 
             commandController.executeCommand(command, clientInput);
         } catch (const Exception::ClientDisconnected &e) {
-            std::cerr << ERROR << e.what() << std::endl;
             ServerMessage::sendMessage(client_socket, INFO_CLIENT_DISCONNECTED);
             break;
         } catch (const std::invalid_argument &e) {
@@ -90,7 +89,6 @@ void ServerManager::handleConnectedClient(int client_socket) {
             continue;
         }
     }
-    delete stockManager;
     SocketController::closeSocket(client_socket);
 }
 

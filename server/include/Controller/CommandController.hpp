@@ -76,6 +76,7 @@ public:
     void executeShutdown(void) {
         try {
             ServerMessage::sendMessage(client_socket, INFO_SERVER_SHUTDOWN);
+            std::cout << "shutting this shi down" << std::endl;
             std::cout << INFO_SERVER_SHUTDOWN << std::endl;
             serverShutdown = true;
         } catch (const std::runtime_error& e) {

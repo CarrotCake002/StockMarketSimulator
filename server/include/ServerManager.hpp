@@ -28,7 +28,6 @@ class ServerManager {
         StockManager* stockManager;
         std::vector<int> clientSockets;
         std::mutex clientSocketsMutex;
-        bool serverShutdown;
     };
     
 
