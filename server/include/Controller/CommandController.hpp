@@ -96,10 +96,10 @@ public:
         StockType stockType;
 
         try {
-            stockType = stockManager.parseStockType(arguments[1]);
             if (arguments.size() < 3) {
                 throw std::invalid_argument(ERROR_INVALID_ARGUMENT);
             }
+            stockType = stockManager.parseStockType(arguments[1]);
             stockManager.buyStock(stockType, std::stoi(arguments[2]));
         } catch (const std::invalid_argument& e) {
             throw e;
@@ -112,10 +112,10 @@ public:
         StockType stockType;
     
         try {
-            stockType = stockManager.parseStockType(arguments[1]);
             if (arguments.size() < 3) {
                 throw std::invalid_argument(ERROR_INVALID_ARGUMENT);
             }
+            stockType = stockManager.parseStockType(arguments[1]);
             stockManager.sellStock(stockType, std::stoi(arguments[2]));
         } catch (const std::invalid_argument& e) {
             throw e;
