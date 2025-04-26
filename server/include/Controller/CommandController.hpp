@@ -6,18 +6,35 @@
 #include "Exception/ServerDisconnected.hpp"
 #include "Controller/ServerMessageController.hpp"
 #include "Atomic.hpp"
+#include "Stocks/StockManager.hpp"
+
+#include <vector>
+#include <sstream>
 
 enum class Command {
     HELP,
     EXIT,
     LIST,
-    SHUTDOWN
+    SHUTDOWN,
+    BUY,
+    SELL
 };
 
 class CommandController {
 public:
     CommandController(int client_socket) : client_socket(client_socket) {}
     ~CommandController() = default;
+
+    std::vector<std::string> splitCommand(const std::string& command) {
+        std::vector<std::string> arguments;
+        std::istringstream iss(command);
+        std::string token;
+
+        while (iss >> token) {
+            arguments.push_back(token);
+        }
+        return arguments;
+    }
 
     Command parseCommand(const std::string& command) {
         std::cout << "\"" << command << "\" received from client with fd " << client_socket << std::endl;
@@ -29,6 +46,10 @@ public:
             return Command::LIST;
         } else if (command == "shutdown") {
             return Command::SHUTDOWN;
+        } else if (command.find("buy") == 0) {
+            return Command::BUY;
+        } else if (command.find("sell") == 0) {
+            return Command::SELL;
         } else {
             throw std::invalid_argument("Unknown command");
         }
@@ -62,24 +83,71 @@ public:
         }
     }
 
-    void executeCommand(Command cmd) {
+    void executeList(void) {
+        try {
+            stockManager.displayStockInfo(client_socket);
+        } catch (const std::runtime_error& e) {
+            throw e;
+        }
+    }
+
+    void executeBuy(const std::string& command) {
+        std::vector<std::string> arguments = splitCommand(command);
+        StockType stockType;
+
+        try {
+            stockType = stockManager.parseStockType(arguments[1]);
+            if (arguments.size() < 3) {
+                throw std::invalid_argument(ERROR_INVALID_ARGUMENT);
+            }
+            stockManager.buyStock(stockType, std::stoi(arguments[2]));
+        } catch (const std::invalid_argument& e) {
+            throw e;
+        }
+        Message::sendMessage(client_socket, "You bought " + std::to_string(std::stoi(arguments[2])) + " shares of " + arguments[1]);
+    }
+
+    void executeSell(const std::string& command) {
+        std::vector<std::string> arguments = splitCommand(command);
+        StockType stockType;
+    
+        try {
+            stockType = stockManager.parseStockType(arguments[1]);
+            if (arguments.size() < 3) {
+                throw std::invalid_argument(ERROR_INVALID_ARGUMENT);
+            }
+            stockManager.sellStock(stockType, std::stoi(arguments[2]));
+        } catch (const std::invalid_argument& e) {
+            throw e;
+        }
+        Message::sendMessage(client_socket, "You sold " + std::to_string(std::stoi(arguments[2])) + " shares of " + arguments[1]);
+    }
+
+    void executeCommand(Command cmd, const std::string& command) {
         try {
             if (cmd == Command::HELP) {
                 executeHelp();
             } else if (cmd == Command::EXIT) {
                 executeExit();
             } else if (cmd == Command::LIST) {
-                // Handle list command
+                executeList();
             } else if (cmd == Command::SHUTDOWN) {
                 executeShutdown();
+            } else if (cmd == Command::BUY) {
+                executeBuy(command);
+            } else if (cmd == Command::SELL) {
+                executeSell(command);
             }
-        } catch (const std::runtime_error& e) {
+        } catch (const std::invalid_argument& e) {
+            throw e;
+        } catch (const std::exception& e) {
             throw e;
         }
     }
 
 private:
     int client_socket;
+    StockManager stockManager;
 };
 
 #endif // COMMAND_CONTROLLER_HPP
