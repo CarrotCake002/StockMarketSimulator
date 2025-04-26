@@ -2,6 +2,8 @@
 #define ISTOCK_HPP
 
 #include <string>
+#include <mutex>
+#include <sstream>
 
 enum class StockType {
     BEER,
@@ -25,6 +27,11 @@ public:
 
     virtual void updatePrice(void) = 0;
     virtual void buyStock(int amount) = 0;
+    virtual void sellStock(int amount) = 0;
+    virtual std::string displayStockInfo(void) const = 0;
+
+protected:
+    std::mutex stockMutex;
 };
 
 #endif // ISTOCK_HPP

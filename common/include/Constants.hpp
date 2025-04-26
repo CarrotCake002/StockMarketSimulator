@@ -64,6 +64,10 @@
 #define ERROR_THREAD_CREATION "Thread creation failed"
 #define ERROR_THREAD_DETACH "Thread detach failed"
 
+// Stock Errors
+#define ERROR_STOCK_NOT_FOUND "Stock not found"
+#define ERROR_STOCK_NOT_ENOUGH_VOLUME "Not enough stock volume to buy"
+
 // Info Messages
 #define INFO_CLIENT_CONNECTED "Client connected"
 #define INFO_CLIENT_DISCONNECTED "Client disconnected"
