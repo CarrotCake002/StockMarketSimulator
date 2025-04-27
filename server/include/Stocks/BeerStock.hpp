@@ -17,7 +17,7 @@ public:
 
     double getPrice() const override { return price; }
     int getVolume() const override { return volume; }
-    std::string getSymbolName() const override { return symbolName; }
+    std::string getName() const override { return symbolName; }
     StockType getType() const override { return symbol; }
     std::string getCompanyName() const override { return companyName; }
 

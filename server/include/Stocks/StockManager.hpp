@@ -19,9 +19,16 @@ public:
 
     // Update stock price
     void updatePrice(int client_socket);
+
     void displayStockInfo(int client_socket) const;
+
     void buyStock(const StockType symbol, int amount);
     void sellStock(const StockType symbol, int amount);
+
+    double getStockPrice(const StockType symbol) const;
+    int getStockVolume(const StockType symbol) const;
+
+    std::string getStockName(const StockType symbol) const;
 
 private:
     std::vector<IStock *> stocks; // Vector to hold pointers to stock objects

@@ -3,6 +3,8 @@
 
 #include "Controller/CommandController.hpp"
 #include "Controller/ServerConnectionController.hpp"
+#include "Client/Client.hpp"
+
 
 #include <thread>
 #include <chrono>
@@ -15,18 +17,24 @@ class ServerManager {
         ~ServerManager();
     
         void run(); // Start the server
+    
     private:
         void startStockUpdater();
         void acceptClientsLoop();
-        void handleClient(int client_socket);
-        void handleConnectedClient(int client_socket);
-        void removeClient(int client_socket);
+    
+        void handleClient(Client *client);
+        void handleConnectedClient(Client *client);
+        
+        Client *ServerManager::getClient(int clientSocket);
+        Client *createClient(int client_socket);
+        void removeClient(Client *client);
     
     private:
         int port;
         ServerConnectionController server;
         StockManager* stockManager;
-        std::vector<int> clientSockets;
+    
+        std::vector<Client *> clients;
         std::mutex clientSocketsMutex;
     };
     

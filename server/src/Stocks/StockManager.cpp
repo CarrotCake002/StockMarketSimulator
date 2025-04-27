@@ -59,3 +59,30 @@ void StockManager::sellStock(const StockType symbol, int amount) {
     }
     throw std::invalid_argument(ERROR_STOCK_NOT_FOUND);
 }
+
+double StockManager::getStockPrice(const StockType symbol) const {
+    for (const auto& stock : stocks) {
+        if (stock->getType() == symbol) {
+            return stock->getPrice();
+        }
+    }
+    throw std::invalid_argument(ERROR_STOCK_NOT_FOUND);
+}
+
+int StockManager::getStockVolume(const StockType symbol) const {
+    for (const auto& stock : stocks) {
+        if (stock->getType() == symbol) {
+            return stock->getVolume();
+        }
+    }
+    throw std::invalid_argument(ERROR_STOCK_NOT_FOUND);
+}
+
+std::string StockManager::getStockName(const StockType symbol) const {
+    for (const auto& stock : stocks) {
+        if (stock->getType() == symbol) {
+            return stock->getName();
+        }
+    }
+    throw std::invalid_argument(ERROR_STOCK_NOT_FOUND);
+}
