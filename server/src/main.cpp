@@ -23,6 +23,7 @@ int main(int ac, char **av) {
     port = std::stoi(av[1]);
 
     try {
+        srand(static_cast<unsigned int>(time(nullptr)));
         ServerManager serverManager(port);
         serverManager.run();
     } catch (...) {

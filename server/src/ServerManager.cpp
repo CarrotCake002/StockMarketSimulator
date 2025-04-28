@@ -92,7 +92,7 @@ void ServerManager::handleConnectedClient(Client *client) {
             std::string clientInput = ServerMessage::receiveMessage(clientSocket);
             Command command = commandController.parseCommand(clientInput);
 
-            commandController.executeCommand(command, clientInput);
+            commandController.executeCommand(command, clientInput, client);
         } catch (const Exception::ClientDisconnected &e) {
             ServerMessage::sendMessage(clientSocket, INFO_CLIENT_DISCONNECTED);
             break;

@@ -4,28 +4,37 @@ void Client::addFunds(double amount) {
     balance += amount;
 }
 
-void Client::buyStock(StockType type, int quantity) {
+bool Client::buyStock(StockType type, int quantity) {
     double stockPrice = stockManager->getStockPrice(type);
+    double newBalance = 0;
 
+    newBalance = balance - stockPrice * quantity;
+    if (newBalance < 0)
+        return false;
+    balance = newBalance;
+    ownedStocks[type] += quantity;
     try {
         stockManager->buyStock(type, quantity);
     } catch (const std::invalid_argument& e) {
         throw e;
     }
-    ownedStocks[type] += quantity;
-    balance -= stockPrice * quantity;
+    return true;
 }
 
-void Client::sellStock(StockType type, int quantity) {
+bool Client::sellStock(StockType type, int quantity) {
     double stockPrice = stockManager->getStockPrice(type);
-
+    int newOwnedStock = ownedStocks[type] - quantity;
+    
+    if (newOwnedStock < 0)
+        return false;
+    ownedStocks[type] = newOwnedStock;
+    balance += stockPrice * quantity;
     try {
         stockManager->sellStock(type, quantity);
     } catch (const std::invalid_argument& e) {
         throw e;
     }
-    ownedStocks[type] -= quantity;
-    balance += stockPrice * quantity;
+    return true;
 }
 
 int Client::getStockHoldings(StockType type) const {

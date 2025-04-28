@@ -21,8 +21,8 @@ public:
     void login(const std::string& username);
 
     void addFunds(double amount);
-    void buyStock(StockType type, int quantity);
-    void sellStock(StockType type, int quantity);
+    bool buyStock(StockType type, int quantity);
+    bool sellStock(StockType type, int quantity);
 
     double getBalance() const { return balance; };
     int getStockHoldings(StockType type) const;
