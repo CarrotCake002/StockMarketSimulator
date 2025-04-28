@@ -67,7 +67,7 @@ void ServerManager::acceptClientsLoop() {
             continue;
 
         Client *newClient = createClient(clientSocket);
-        std::thread(&ServerManager::handleClient, this, clientSocket).detach();
+        std::thread(&ServerManager::handleClient, this, newClient).detach();
 
         std::cout << "[INFO] Client connected: FD " << clientSocket << std::endl;
     }

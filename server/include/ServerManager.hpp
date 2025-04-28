@@ -25,7 +25,7 @@ class ServerManager {
         void handleClient(Client *client);
         void handleConnectedClient(Client *client);
         
-        Client *ServerManager::getClient(int clientSocket);
+        Client *getClient(int clientSocket);
         Client *createClient(int client_socket);
         void removeClient(Client *client);
     
