@@ -32,7 +32,7 @@ public:
 private:
     int socket;
     bool loggedIn;
-    std::string username;
+    std::string username = "CarrotCake";
     double balance = 100.0;
 
     StockManager *stockManager;

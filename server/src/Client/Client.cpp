@@ -53,6 +53,7 @@ std::string Client::getClientInfo() const {
          << "Balance: " << balance << "\n"
          << "Stocks: \n";
 
+    std::cout << balance << std::endl;
     for (const auto& stock : ownedStocks) {
         info << "  - " << stockManager->getStockName(stock.first) << ": " << stock.second << "\n";
     }
