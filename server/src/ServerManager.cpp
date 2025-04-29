@@ -1,7 +1,7 @@
 #include "ServerManager.hpp"
 
-ServerManager::ServerManager(int port)
-    : port(port), server(port), stockManager(new StockManager())
+ServerManager::ServerManager(int port, double speedMultiplier)
+    : port(port), speedMultiplier(speedMultiplier), server(port), stockManager(new StockManager())
 {}
 
 ServerManager::~ServerManager() {
@@ -20,8 +20,10 @@ void ServerManager::run() {
 
 void ServerManager::startStockUpdater() {
     std::thread([this]() {
+        int speed = 1000 / speedMultiplier;
+
         while (!serverShutdown) {
-            std::this_thread::sleep_for(std::chrono::seconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(speed));
             std::lock_guard<std::mutex> lock(clientSocketsMutex);
             
             for (auto client : clients) {

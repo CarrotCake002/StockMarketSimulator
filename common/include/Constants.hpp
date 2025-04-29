@@ -14,6 +14,10 @@
 #define PORT_MIN 0
 #define PORT_MAX 65535
 
+// Speed Multiplier
+#define ERROR_INVALID_SPEED_MULTIPLIER "Speed multiplier must be greater than 0"
+#define DEFAULT_SPEED_MULTIPLIER 1.0
+
 // Utilities
 #define INPUT_LINE_RESET "\33[2K\r> "
 

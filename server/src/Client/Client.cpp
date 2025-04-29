@@ -50,7 +50,7 @@ std::string Client::getClientInfo() const {
     std::ostringstream info;
 
     info << "Client: " << username << "\n"
-         << "Balance: " << balance << "\n"
+         << "Balance: $" << balance << "\n"
          << "Stocks: \n";
 
     std::cout << balance << std::endl;

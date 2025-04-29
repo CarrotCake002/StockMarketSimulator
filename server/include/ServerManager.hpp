@@ -13,7 +13,7 @@
 
 class ServerManager {
     public:
-        ServerManager(int port);
+        ServerManager(int port, double timerMultiplier);
         ~ServerManager();
     
         void run(); // Start the server
@@ -31,6 +31,7 @@ class ServerManager {
     
     private:
         int port;
+        double speedMultiplier;
         ServerConnectionController server;
         StockManager* stockManager;
     
