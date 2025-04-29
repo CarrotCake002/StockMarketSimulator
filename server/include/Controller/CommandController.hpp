@@ -5,6 +5,7 @@
 #include "Controller/SocketController.hpp"
 #include "Exception/ServerDisconnected.hpp"
 #include "Controller/ServerMessageController.hpp"
+#include "Client/Client.hpp"
 #include "Atomic.hpp"
 #include "Stocks/StockManager.hpp"
 
@@ -16,6 +17,7 @@ enum class Command {
     EXIT,
     LIST,
     SHUTDOWN,
+    STATUS,
     BUY,
     SELL
 };
@@ -46,6 +48,8 @@ public:
             return Command::LIST;
         } else if (command == "shutdown") {
             return Command::SHUTDOWN;
+        } else if (command == "status") {
+            return Command::STATUS;
         } else if (command.find("buy") == 0) {
             return Command::BUY;
         } else if (command.find("sell") == 0) {
@@ -75,10 +79,17 @@ public:
 
     void executeShutdown(void) {
         try {
-            ServerMessage::sendMessage(client_socket, INFO_SERVER_SHUTDOWN);
-            std::cout << "shutting this shi down" << std::endl;
+            Message::sendMessage(client_socket, INFO_SERVER_SHUTDOWN);
             std::cout << INFO_SERVER_SHUTDOWN << std::endl;
             serverShutdown = true;
+        } catch (const std::runtime_error& e) {
+            throw e;
+        }
+    }
+
+    void executeStatus(Client *client) {
+        try {
+            Message::sendMessage(client_socket, client->getClientInfo());
         } catch (const std::runtime_error& e) {
             throw e;
         }
@@ -92,39 +103,49 @@ public:
         }
     }
 
-    void executeBuy(const std::string& command) {
+    void executeBuy(const std::string& command, Client *client) {
         std::vector<std::string> arguments = splitCommand(command);
         StockType stockType;
+        int amount;
 
         try {
             if (arguments.size() < 3) {
                 throw std::invalid_argument(ERROR_INVALID_ARGUMENT);
             }
+            amount = stoi(arguments[2]);
             stockType = stockManager->parseStockType(arguments[1]);
-            stockManager->buyStock(stockType, std::stoi(arguments[2]));
+            if (!client->buyStock(stockType, amount)) {
+                Message::sendMessage(client_socket, ERROR_INSUFFICIENT_BALANCE);
+                throw std::invalid_argument(ERROR_INSUFFICIENT_BALANCE);
+            }
         } catch (const std::invalid_argument& e) {
             throw e;
         }
         Message::sendMessage(client_socket, "You bought " + std::to_string(std::stoi(arguments[2])) + " shares of " + arguments[1]);
     }
 
-    void executeSell(const std::string& command) {
+    void executeSell(const std::string& command, Client *client) {
         std::vector<std::string> arguments = splitCommand(command);
         StockType stockType;
+        int amount;
     
         try {
             if (arguments.size() < 3) {
                 throw std::invalid_argument(ERROR_INVALID_ARGUMENT);
             }
+            amount = stoi(arguments[2]);
             stockType = stockManager->parseStockType(arguments[1]);
-            stockManager->sellStock(stockType, std::stoi(arguments[2]));
+            if (!client->sellStock(stockType, amount)) {
+                Message::sendMessage(client_socket, ERROR_INSUFFICIENT_STOCK);
+                throw std::invalid_argument(ERROR_INSUFFICIENT_STOCK);
+            }
         } catch (const std::invalid_argument& e) {
             throw e;
         }
         Message::sendMessage(client_socket, "You sold " + std::to_string(std::stoi(arguments[2])) + " shares of " + arguments[1]);
     }
 
-    void executeCommand(Command cmd, const std::string& command) {
+    void executeCommand(Command cmd, const std::string& command, Client *client) {
         try {
             if (cmd == Command::HELP) {
                 executeHelp();
@@ -134,10 +155,12 @@ public:
                 executeList();
             } else if (cmd == Command::SHUTDOWN) {
                 executeShutdown();
+            } else if (cmd == Command::STATUS) {
+                executeStatus(client);
             } else if (cmd == Command::BUY) {
-                executeBuy(command);
+                executeBuy(command, client);
             } else if (cmd == Command::SELL) {
-                executeSell(command);
+                executeSell(command, client);
             }
         } catch (const std::invalid_argument& e) {
             throw e;

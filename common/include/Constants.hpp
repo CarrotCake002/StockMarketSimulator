@@ -14,6 +14,10 @@
 #define PORT_MIN 0
 #define PORT_MAX 65535
 
+// Speed Multiplier
+#define ERROR_INVALID_SPEED_MULTIPLIER "Speed multiplier must be greater than 0"
+#define DEFAULT_SPEED_MULTIPLIER 1.0
+
 // Utilities
 #define INPUT_LINE_RESET "\33[2K\r> "
 
@@ -67,6 +71,8 @@
 // Stock Errors
 #define ERROR_STOCK_NOT_FOUND "Stock not found"
 #define ERROR_STOCK_NOT_ENOUGH_VOLUME "Not enough stock volume to buy"
+#define ERROR_INSUFFICIENT_BALANCE "Insufficient balance"
+#define ERROR_INSUFFICIENT_STOCK "Insufficient stock"
 
 // Info Messages
 #define INFO_CLIENT_CONNECTED "Client connected"

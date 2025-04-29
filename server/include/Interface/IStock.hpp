@@ -5,10 +5,7 @@
 #include <mutex>
 #include <sstream>
 
-enum class StockType {
-    BEER,
-    WINE
-};
+#include "Stocks/StockType.hpp"
 
 class IStock {
 public:
@@ -19,8 +16,8 @@ public:
     
     virtual int getVolume(void) const = 0;
     virtual void setVolume(int volume) = 0;
-    
-    virtual std::string getSymbolName(void) const = 0;
+
+    virtual std::string getName(void) const = 0;
     virtual StockType getType(void) const = 0;
 
     virtual std::string getCompanyName(void) const = 0;
@@ -28,6 +25,7 @@ public:
     virtual void updatePrice(void) = 0;
     virtual void buyStock(int amount) = 0;
     virtual void sellStock(int amount) = 0;
+
     virtual std::string displayStockInfo(void) const = 0;
 
 protected:
