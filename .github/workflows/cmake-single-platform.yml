@@ -4,7 +4,6 @@ on:
   push:
     branches: [ '**' ]
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,14 +11,17 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # Install dependencies (CMake, Make, g++)
+    # Install system dependencies
     - name: Install dependencies
-      run: sudo apt update && sudo apt install -y cmake g++ make
-
-    - name: Install Google Test
       run: |
         sudo apt update
-        sudo apt install -y libgtest-dev
+        sudo apt install -y cmake g++ make pkg-config \
+                            libsdl2-dev libopengl-dev \
+                            libgtest-dev
+
+    # Build and install Google Test manually
+    - name: Install Google Test
+      run: |
         cd /usr/src/gtest
         sudo cmake .
         sudo make
@@ -32,13 +34,13 @@ jobs:
         cd build
         cmake ..
 
-    # Build the project with Make
+    # Build the project
     - name: Build the project
       run: |
         cd build
         make
 
-    # Build the tests with Make
+    # Build the tests
     - name: Build the Tests
       run: |
         cd build
