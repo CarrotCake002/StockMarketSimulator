@@ -5,6 +5,12 @@
 
 #include <thread>
 
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include "imgui.h"
+#include "backends/imgui_impl_sdl2.h"
+#include "backends/imgui_impl_opengl3.h"
+
 std::atomic<bool> serverShutdown(false);
 std::atomic<bool> clientExit(false);
 
@@ -73,14 +79,17 @@ void handleConnection(std::string ip, int port) {
     SocketController::closeSocket(client.getServerSocket());
 }
 
-int main(int ac, char **av) {
-    signal(SIGINT, signalHandler);
-    if (inputErrorHandling(ac, av))
-        return 84;
-    try {
-        handleConnection(std::string(av[1]), std::stoi(av[2]));
-    } catch (...) {
-        return 84;
+#include <SDL2/SDL.h>
+
+int main(int argc, char *argv[]) {
+    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Window* window = SDL_CreateWindow("SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
+    if (window == nullptr) {
+        SDL_Log("Error: %s", SDL_GetError());
+    } else {
+        SDL_Delay(3000);
+        SDL_DestroyWindow(window);
     }
+    SDL_Quit();
     return 0;
 }
