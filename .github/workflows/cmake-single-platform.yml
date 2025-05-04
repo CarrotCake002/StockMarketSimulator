@@ -10,6 +10,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        submodules: true  # This ensures submodules are cloned
 
     # Install system dependencies
     - name: Install dependencies
